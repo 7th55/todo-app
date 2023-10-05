@@ -1,5 +1,9 @@
 // Routing
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+  BrowserRouter,
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom';
 // Store
 import { Provider } from 'react-redux';
 // Components
@@ -21,7 +25,9 @@ const router = createBrowserRouter([
 export const App = () => {
   return (
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <BrowserRouter basename="/todo-app">
+        <RouterProvider router={router} />
+      </BrowserRouter>
     </Provider>
   );
 };
