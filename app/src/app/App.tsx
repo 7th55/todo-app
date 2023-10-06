@@ -1,9 +1,5 @@
 // Routing
-import {
-  BrowserRouter,
-  RouterProvider,
-  createBrowserRouter,
-} from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 // Store
 import { Provider } from 'react-redux';
 // Components
@@ -11,7 +7,7 @@ import { Projects } from 'pages/Projects';
 import { Tasks } from 'pages/Tasks';
 import { store } from 'app/model/store';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <Projects />,
@@ -25,9 +21,7 @@ const router = createBrowserRouter([
 export const App = () => {
   return (
     <Provider store={store}>
-      <BrowserRouter basename="/todo-app">
-        <RouterProvider router={router} />
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </Provider>
   );
 };
