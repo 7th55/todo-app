@@ -1,0 +1,112 @@
+.taskDetails {
+  overflow-y: scroll;
+  height: 70vh;
+  width: 70vw;
+}
+
+.taskDetails::-webkit-scrollbar {
+  background-color: var(--palette_bg);
+}
+
+.taskDetails::-webkit-scrollbar {
+  width: 12px; /* ширина всей полосы прокрутки */
+}
+
+.taskDetails::-webkit-scrollbar-track {
+  background: var(--palette_bg); /* цвет зоны отслеживания */
+}
+
+.taskDetails::-webkit-scrollbar-thumb {
+  background-color: var(--palette_bg); /* цвет бегунка */
+  border-radius: 20px; /* округлось бегунка */
+  border: 3px solid white; /* отступ вокруг бегунка */
+}
+
+.description {
+  min-height: 200px;
+  padding: 10px;
+  // background-color: black;
+  color: var(--palette_text);
+
+  border-radius: 3px;
+  border: 3px solid var(--palette_border); /* отступ вокруг бегунка */
+}
+
+.descriptionTitle {
+  margin: 0;
+}
+
+.descriptionText {
+  margin: 0;
+  word-break: break-all;
+}
+
+.taskTitle {
+  position: relative;
+  color: var(--palette_taskCardTitle);
+  background-color: white;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.taskTitleId {
+  position: absolute;
+  top: -9px;
+  font-size: 0.6rem;
+  background-color: black;
+  color: var(--palette_id);
+  letter-spacing: -0.2px;
+  font-weight: 700;
+}
+
+.subTasksBox {
+  background-color: antiquewhite;
+  border-radius: 3px;
+  color: black;
+  padding: 0 5px;
+}
+
+.subTask {
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--palette_bg);
+  color: var(--palette_text);
+  border: 1px solid var(--palette_border);
+  border-radius: 3px;
+  padding: 0 5px;
+  margin-bottom: 5px;
+}
+
+.taskBox {
+  display: flex;
+  width: 100%;
+}
+
+.taskNumber {
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  font-weight: 700;
+  height: 20px;
+  padding: 5px;
+  background-color: aliceblue;
+  color: black;
+}
+
+.commentsBox {
+  background-color: antiquewhite;
+  border-radius: 3px;
+  color: black;
+  padding: 0 5px;
+}
+
+.description {
+  background-color: var(--palette_bg);
+}
+
+.taskStatus {
+  display: flex;
+  align-items: center;
+  background-color: var(--palette_bg);
+  text-transform: uppercase;
+}

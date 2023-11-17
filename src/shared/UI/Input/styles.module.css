@@ -1,0 +1,16 @@
+.inputBox {
+  height: 33px;
+
+  & input {
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+
+.errorBox {
+  margin: -8px 0 0 0;
+}
+.errorMessage {
+  font-size: 8px;
+  color: red;
+}

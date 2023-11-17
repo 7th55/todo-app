@@ -1,0 +1,68 @@
+.taskCard {
+  width: 100%;
+  background-color: var(--palette_bg);
+  color: var(--palette_text);
+  border: 1px solid var(--palette_border);
+  border-radius: 3px;
+  padding: 0 10px;
+}
+
+.taskTitle {
+  position: relative;
+  color: var(--palette_taskCardTitle);
+  background-color: white;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.taskTitleId {
+  position: absolute;
+  top: -9px;
+  font-size: 0.6rem;
+  background-color: black;
+  color: var(--palette_id);
+  letter-spacing: -0.2px;
+  font-weight: 700;
+}
+
+.statusAndPriority {
+  display: flex;
+  gap: 35px;
+
+  @media (max-width: 1260px) {
+    & {
+      gap: 0;
+      width: 100%;
+    }
+  }
+}
+
+.cardButtons {
+  display: flex;
+  gap: 5px;
+}
+
+.taskDetails {
+  overflow-y: scroll;
+  height: 70vh;
+  width: 70vw;
+  // max-width: 70vw;
+}
+
+.taskDetails::-webkit-scrollbar {
+  background-color: var(--palette_bg);
+}
+
+.taskDetails::-webkit-scrollbar {
+  width: 12px; /* ширина всей полосы прокрутки */
+}
+
+.taskDetails::-webkit-scrollbar-track {
+  background: var(--palette_bg); /* цвет зоны отслеживания */
+}
+
+.taskDetails::-webkit-scrollbar-thumb {
+  background-color: var(--palette_bg); /* цвет бегунка */
+  border-radius: 20px; /* округлось бегунка */
+  border: 3px solid white; /* отступ вокруг бегунка */
+}

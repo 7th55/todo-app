@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --palette_id: #c3672a;
+  --palette_links: #c3672a;
+  --palette_bg: rgb(21, 32, 43);
+  --palette_commentbg: #192734;
+  --palette_buttonBg: rgb(255, 179, 0);
+  --palette_text: #cccccc;
+  --palette_border: #38444d66;
+  --palette_activeBg: #c3672a;
+  --palette_activeText: white;
+  --palette_activeTextProductCard: black;
+  --palette_taskCardDescriptionText: black;
+  --palette_taskCardTitle: black;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Space Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--palette_bg);
+  color: var(--palette_text);
+}
+a,
+a:visited {
+  color: var(--palette_links);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+a:active {
+  color: var(--palette_activeText);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+/* Global */
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

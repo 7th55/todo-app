@@ -1,0 +1,82 @@
+.project {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: var(--palette_bg);
+  background-color: aliceblue;
+  border: 1px solid var(--palette_border);
+  border-radius: 10px;
+  padding: 0 0 0 0;
+}
+
+.createProject {
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: rgba(255, 115, 0, 0.56);
+  color: black;
+  cursor: pointer;
+}
+
+.createProjectContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.hoverHere {
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  color: black;
+}
+
+.hoverLayer {
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  color: black;
+  cursor: pointer;
+}
+
+.messages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.projectCardContainer {
+  z-index: 30;
+}
+
+.projectCard:first-child {
+  margin-top: 5px;
+}
+

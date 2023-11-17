@@ -1,0 +1,22 @@
+.projectCard {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 5px 10px;
+  margin: 0 5px 5px 5px;
+  background-color: var(--palette_bg);
+  border: 1px solid var(--palette_border);
+  border-radius: 3px;
+}
+
+.projectInfo {
+  color: var(--palette_links);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.clickableArea {
+  width: 100%;
+  cursor: pointer;
+}
