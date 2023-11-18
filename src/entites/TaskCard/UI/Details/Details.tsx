@@ -2,7 +2,6 @@ import { Task } from 'shared/types';
 import classes from './styles.module.scss';
 import { Button } from 'shared/UI/Button';
 import { Comments } from 'entites/Comments';
-import { useState } from 'react';
 import { StatusButtons } from './UI/StatusButtons';
 
 type DetailsProps = {
@@ -48,8 +47,6 @@ export const Details = (props: DetailsProps) => {
     addCommentHandler,
     addCommentReplyHandler,
   } = handlers;
-
-  const [status, setStatus] = useState(false);
 
   return (
     <div className={classes.taskDetails} style={{}}>

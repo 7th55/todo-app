@@ -28,7 +28,7 @@ export const Project = (props: ProjectProps) => {
       <div className={classes.projectCardContainer}>
         {projects.length
           ? projects.map((project, index) => (
-              <div className={classes.projectCard}>
+              <div key={project.id} className={classes.projectCard}>
                 <ProjectCard
                   key={project.id}
                   index={index}

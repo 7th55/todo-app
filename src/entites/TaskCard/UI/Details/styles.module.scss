@@ -25,7 +25,6 @@
 .description {
   min-height: 200px;
   padding: 10px;
-  // background-color: black;
   color: var(--palette_text);
 
   border-radius: 3px;
@@ -98,6 +97,7 @@
   border-radius: 3px;
   color: black;
   padding: 0 5px;
+  overflow: auto;
 }
 
 .description {

@@ -20,11 +20,11 @@ export const DevTimer = (props: DevTimerProps) => {
   }, [timeInDev, timeInDevHandler]);
 
   return (
-    <div>
+    <span>
       Time In Development:{' '}
       {`${formatTimeAndDate(timeInDev).hours}:${
         formatTimeAndDate(timeInDev).minutes
       }:${formatTimeAndDate(timeInDev).seconds}`}
-    </div>
+    </span>
   );
 };
