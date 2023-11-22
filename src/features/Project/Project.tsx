@@ -4,6 +4,7 @@ import { deleteProject, useProject } from './model/projectReducer';
 // Components
 import { CreateProjectLayer } from './UI/CreateProjectLayer/CreateProjectLayer';
 import { ProjectCard } from 'entites/ProjectCard';
+import { Animation } from 'shared/UI/Animation';
 // Lib
 import { checkWidth } from 'shared/lib';
 // Styles
@@ -28,17 +29,19 @@ export const Project = (props: ProjectProps) => {
       <div className={classes.projectCardContainer}>
         {projects.length
           ? projects.map((project, index) => (
-              <div key={project.id} className={classes.projectCard}>
-                <ProjectCard
-                  key={project.id}
-                  index={index}
-                  project={project}
-                  onClickHandler={() => {
-                    dispatch(deleteProject({ ...project }));
-                    clearTasksHandler(project.id);
-                  }}
-                />
-              </div>
+              <Animation>
+                <div key={project.id} className={classes.projectCard}>
+                  <ProjectCard
+                    key={project.id}
+                    index={index}
+                    project={project}
+                    onClickHandler={() => {
+                      dispatch(deleteProject({ ...project }));
+                      clearTasksHandler(project.id);
+                    }}
+                  />
+                </div>
+              </Animation>
             ))
           : null}
       </div>

@@ -1,37 +1,22 @@
 // Hooks
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React from 'react';
 // Styles
-import classes from './styles.module.css';
+import { motion } from 'framer-motion';
 
 type AnimationProps = {
   children: React.ReactNode;
-  onEnd?: () => void;
 };
+
 export const Animation = (props: AnimationProps) => {
-  const { children, onEnd } = props;
-
-  const [animation, setAnimation] = useState<'start' | 'end' | null>(null);
-
-  useLayoutEffect(() => {
-    setAnimation('start');
-  }, []);
-
+  const { children } = props;
   return (
-    <div
-      className={classes.animation}
-      data-animation={animation}
-      onAnimationEnd={(e) => {
-        setAnimation(null);
-        e.animationName === 'end' && onEnd && onEnd();
-      }}
-      onClick={() => setAnimation('end')}
-    >
-      {children}
-      <button
-        onClick={() =>
-          animation === null ? setAnimation('start') : setAnimation(null)
-        }
-      ></button>
+    <div style={{ overflow: 'hidden' }}>
+      <motion.div
+        animate={{ y: [-1000, 0], opacity: [0, 1] }}
+        transition={{ ease: 'easeOut' }}
+      >
+        {children}
+      </motion.div>
     </div>
   );
 };
