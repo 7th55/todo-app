@@ -10,6 +10,7 @@ import { createId } from 'shared/lib';
 import { createProject } from 'features/Project/model/projectReducer';
 import { isOpenUpperLayer } from 'shared/UI/UpperLayer/model/upperLayerReducer';
 
+//
 export const Projects = () => {
   const dispatch = useDispatch();
 

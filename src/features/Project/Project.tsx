@@ -9,6 +9,8 @@ import { Animation } from 'shared/UI/Animation';
 import { checkWidth } from 'shared/lib';
 // Styles
 import classes from './styles.module.css';
+import { useProjectAnimation } from './hooks';
+import { useEffect } from 'react';
 
 type ProjectProps = {
   clearTasksHandler: (projectId: string) => void;
@@ -21,16 +23,26 @@ export const Project = (props: ProjectProps) => {
   const projects = useProject();
   const dispatch = useDispatch();
 
+  const scope = useProjectAnimation({
+    projectClass: classes.project,
+    projectCardClass: classes.projectCard,
+  });
+
   return (
-    <div
-      className={classes.project}
-      style={{ paddingTop: projects.length ? undefined : '5px' }}
-    >
-      <div className={classes.projectCardContainer}>
-        {projects.length
-          ? projects.map((project, index) => (
-              <Animation>
-                <div key={project.id} className={classes.projectCard}>
+    <div ref={scope}>
+      <div
+        className={classes.project}
+        style={{ paddingTop: projects.length ? undefined : '5px' }}
+      >
+        <div className={classes.projectCardContainer}>
+          {projects.length
+            ? projects.map((project, index) => (
+                // <Animation>
+                <div
+                  key={project.id}
+                  className={classes.projectCard}
+                  id="projectCard"
+                >
                   <ProjectCard
                     key={project.id}
                     index={index}
@@ -41,15 +53,16 @@ export const Project = (props: ProjectProps) => {
                     }}
                   />
                 </div>
-              </Animation>
-            ))
-          : null}
+                // </Animation>
+              ))
+            : null}
+        </div>
+        <CreateProjectLayer
+          type={checkWidth() >= 1024 ? 'HoverAndClick' : 'BigButton'}
+          projects={projects}
+          createProjectHandler={() => createProjectHandler()}
+        />
       </div>
-      <CreateProjectLayer
-        type={checkWidth() >= 1024 ? 'HoverAndClick' : 'BigButton'}
-        projects={projects}
-        createProjectHandler={() => createProjectHandler()}
-      />
     </div>
   );
 };

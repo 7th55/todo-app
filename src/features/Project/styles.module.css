@@ -7,6 +7,13 @@
   border: 1px solid var(--palette_border);
   border-radius: 10px;
   padding: 0 0 0 0;
+  /* For Animations */
+  overflow: hidden;
+}
+
+.projectCard {
+  /* For Animations */
+  overflow: hidden;
 }
 
 .createProject {
@@ -79,4 +86,3 @@
 .projectCard:first-child {
   margin-top: 5px;
 }
-
