@@ -14,9 +14,7 @@ export function useProjectAnimation({ projectClass, projectCardClass }: any) {
     ];
 
     animate(sequence);
-  });
-
-  console.log(scope);
+  }, []);
 
   return scope;
 }
