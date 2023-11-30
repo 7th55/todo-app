@@ -7,6 +7,8 @@ import { Button } from 'shared/UI/Button';
 import { Project } from 'shared/types';
 // Styles
 import classes from './styles.module.css';
+// Animation
+import { useAnimate } from 'framer-motion';
 
 type ProjectCardProps = {
   index: number;
@@ -19,10 +21,14 @@ export const ProjectCard = (props: ProjectCardProps) => {
 
   const [active, setActive] = useState(false);
 
+  const [scope, animate] = useAnimate();
+
   const navigate = useNavigate();
 
   return (
     <div
+      ref={scope}
+      id={project.id}
       className={classes.projectCard}
       style={{
         backgroundColor: active ? 'var(--palette_activeBg)' : undefined,
@@ -65,7 +71,17 @@ export const ProjectCard = (props: ProjectCardProps) => {
       <Button
         variant="outline"
         style={{ borderColor: 'red', color: 'red' }}
-        onClickHandler={() => onClickHandler()}
+        onClickHandler={() => {
+          const projectCard = document.getElementById(
+            project.id
+          ) as HTMLElement;
+          const animation = animate(
+            projectCard,
+            { opacity: [1, 0] },
+            { duration: 0.5 }
+          );
+          animation.then(() => onClickHandler());
+        }}
       >
         Delete
       </Button>
