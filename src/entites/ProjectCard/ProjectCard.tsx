@@ -1,5 +1,7 @@
 // Hooks
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+// Animation
+import { useAnimateProjectCard } from './lib/hooks';
 // Components
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'shared/UI/Button';
@@ -7,8 +9,6 @@ import { Button } from 'shared/UI/Button';
 import { Project } from 'shared/types';
 // Styles
 import classes from './styles.module.css';
-// Animation
-import { useAnimate } from 'framer-motion';
 
 type ProjectCardProps = {
   index: number;
@@ -21,7 +21,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
 
   const [active, setActive] = useState(false);
 
-  const [scope, animate] = useAnimate();
+  const [scope, deleteCard] = useAnimateProjectCard(project.id);
 
   const navigate = useNavigate();
 
@@ -72,15 +72,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
         variant="outline"
         style={{ borderColor: 'red', color: 'red' }}
         onClickHandler={() => {
-          const projectCard = document.getElementById(
-            project.id
-          ) as HTMLElement;
-          const animation = animate(
-            projectCard,
-            { opacity: [1, 0] },
-            { duration: 0.5 }
-          );
-          animation.then(() => onClickHandler());
+          deleteCard(onClickHandler);
         }}
       >
         Delete
