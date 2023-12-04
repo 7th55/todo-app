@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 // Styles
 import classes from './styles.module.css';
 import { Button } from '../Button';
+import { motion } from 'framer-motion';
 
 export const UpperLayer = ({
   content,
@@ -31,16 +32,6 @@ export const UpperLayer = ({
       fixedLayer.style.position = 'static';
       fixedLayer.style.overflow = 'auto';
     }
-  }, [isOpen]);
-
-  useEffect(() => {
-    return () => {
-      // const fixedLayer = document.querySelector('.upperLayer') as HTMLElement;
-      // if (isOpen && fixedLayer) {
-      //   fixedLayer.style.position = 'static';
-      //   fixedLayer.style.overflow = 'auto';
-      // }
-    };
   }, [isOpen]);
 
   return isOpen
@@ -75,29 +66,36 @@ export const UpperLayer = ({
           }}
         >
           <div className={classes.content} onClick={(e) => e.stopPropagation()}>
-            <span className={classes.closeButton}>
-              <Button
-                variant="outline"
-                style={{ borderColor: 'red', color: 'red' }}
-                onClickHandler={() => {
-                  if (closeModal) {
-                    closeModal();
-                  } else {
-                    const fixedLayer = document.querySelector(
-                      '.upperLayer'
-                    ) as HTMLElement;
-                    if (isOpen && fixedLayer) {
-                      fixedLayer.style.position = 'static';
-                      fixedLayer.style.overflow = 'auto';
+            <motion.div
+              animate={{ opacity: [0, 1] }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className={classes.closeButton}>
+                <Button
+                  variant="outline"
+                  style={{ borderColor: 'red', color: 'red' }}
+                  onClickHandler={() => {
+                    if (closeModal) {
+                      closeModal();
+                    } else {
+                      const fixedLayer = document.querySelector(
+                        '.upperLayer'
+                      ) as HTMLElement;
+
+                      if (isOpen && fixedLayer) {
+                        fixedLayer.style.position = 'static';
+                        fixedLayer.style.overflow = 'auto';
+                      }
+
+                      dispatch(isOpenUpperLayer({ isOpen: false }));
                     }
-                    dispatch(isOpenUpperLayer({ isOpen: false }));
-                  }
-                }}
-              >
-                close
-              </Button>
-            </span>
-            {content}
+                  }}
+                >
+                  close
+                </Button>
+              </span>
+              {content}
+            </motion.div>
           </div>
         </div>,
         document.body
