@@ -1,10 +1,11 @@
 // Hooks
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // Components
 import { Button } from 'shared/UI/Button';
 import { Input } from 'shared/UI/Input';
 // Styles
-import classes from './styles.module.scss'
+import classes from './styles.module.scss';
+import { useIsPresent } from 'framer-motion';
 
 type Project = {
   name: string;
@@ -14,6 +15,7 @@ type ProjectFormProps = {
   createProjectHandler: (project: Project) => void;
   upperLayerHandler: () => void;
 };
+
 export const ProjectForm = (props: ProjectFormProps) => {
   const { createProjectHandler, upperLayerHandler } = props;
 
@@ -44,20 +46,6 @@ export const ProjectForm = (props: ProjectFormProps) => {
         },
       },
     });
-
-    // const timer = setInterval(() => {
-    //   setProjectForm({
-    //     ...projectForm,
-    //     [input]: {
-    //       ...projectForm[input],
-    //       error: {
-    //         ...projectForm[input].error,
-    //         isOpen: false,
-    //       },
-    //     },
-    //   });
-    //   clearInterval(timer);
-    // }, 500);
   };
 
   const isEmpty = (value: string) => value.trim() === '';

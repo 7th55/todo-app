@@ -7,7 +7,6 @@ export const useAnimateProjectCard = (
 
   const deleteCard = (onClickHandler: () => void) => {
     const projectCard = document.getElementById(projectId) as HTMLElement;
-    console.log(projectCard);
     const animation = animate(
       projectCard,
       { opacity: [1, 0] },

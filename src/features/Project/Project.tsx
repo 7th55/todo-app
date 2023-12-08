@@ -34,12 +34,8 @@ export const Project = (props: ProjectProps) => {
         <div className={classes.projectCardContainer}>
           {projects.length
             ? projects.map((project, index) => (
-                <ProjectCardAnimation>
-                  <div
-                    key={project.id}
-                    className={classes.projectCard}
-                    id="projectCard"
-                  >
+                <ProjectCardAnimation key={project.id}>
+                  <div className={classes.projectCard} id="projectCard">
                     <ProjectCard
                       key={project.id}
                       index={index}

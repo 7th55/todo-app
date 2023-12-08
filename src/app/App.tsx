@@ -25,7 +25,7 @@ const router = createHashRouter([
 
 export const App = () => {
   return (
-    <div className="upperLayer">
+    <div className="upperLayer" style={{ width: '100%', height: '100%' }}>
       <Provider store={store}>
         <RouterProvider router={router} />
       </Provider>

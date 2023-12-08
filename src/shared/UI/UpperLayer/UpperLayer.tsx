@@ -3,7 +3,7 @@ import { useLayoutEffect } from 'react';
 import { useUpperLayer } from './model/upperLayerReducer';
 // Components
 import { Button } from '../Button';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 // Lib
 import { isOpenUpperLayer } from './model/upperLayerReducer';
 // React Api
@@ -15,8 +15,6 @@ import classes from './styles.module.css';
 const fixHTMLElement = (element: HTMLElement) => {
   element.style.position = 'fixed';
   element.style.overflow = 'hidden';
-  // element.style.width = '100%';
-  // element.style.height = '100%';
 };
 const unfixHTMLElement = (element: HTMLElement) => {
   element.style.position = 'static';
@@ -44,51 +42,60 @@ export const UpperLayer = ({
     }
   }, [isOpen]);
 
-  return isOpen
-    ? createPortal(
-        <div
-          className={classes.upperLayer}
-          onClick={(e) => {
-            e.preventDefault();
-            if (closeModal) {
-              closeModal();
-            } else {
-              if (isOpen && upperLayer) {
-                unfixHTMLElement(upperLayer);
-              }
-              dispatch(isOpenUpperLayer({ isOpen: false }));
-            }
-          }}
-        >
-          <div className={classes.content} onClick={(e) => e.stopPropagation()}>
-            <motion.div
-              animate={{ opacity: [0, 1] }}
-              transition={{ duration: 0.5 }}
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div key="upperLayer">
+          {createPortal(
+            <div
+              className={classes.upperLayer}
+              onClick={(e) => {
+                e.preventDefault();
+                if (closeModal) {
+                  closeModal();
+                } else {
+                  if (isOpen && upperLayer) {
+                    unfixHTMLElement(upperLayer);
+                  }
+                  dispatch(isOpenUpperLayer({ isOpen: false }));
+                }
+              }}
             >
-              <span className={classes.closeButton}>
-                <Button
-                  variant="outline"
-                  style={{ borderColor: 'red', color: 'red' }}
-                  onClickHandler={() => {
-                    if (closeModal) {
-                      closeModal();
-                    } else {
-                      if (isOpen && upperLayer) {
-                        unfixHTMLElement(upperLayer);
-                      }
+              <motion.div
+                className={classes.content}
+                onClick={(e) => e.stopPropagation()}
+                animate={{ opacity: [0, 1] }}
+                transition={{ duration: 0.5 }}
+                exit={{ opacity: [1, 0] }}
+              >
+                <motion.div>
+                  <span className={classes.closeButton}>
+                    <Button
+                      variant="outline"
+                      style={{ borderColor: 'red', color: 'red' }}
+                      onClickHandler={() => {
+                        if (closeModal) {
+                          closeModal();
+                        } else {
+                          if (isOpen && upperLayer) {
+                            unfixHTMLElement(upperLayer);
+                          }
 
-                      dispatch(isOpenUpperLayer({ isOpen: false }));
-                    }
-                  }}
-                >
-                  close
-                </Button>
-              </span>
-              {content}
-            </motion.div>
-          </div>
-        </div>,
-        document.body
-      )
-    : null;
+                          dispatch(isOpenUpperLayer({ isOpen: false }));
+                        }
+                      }}
+                    >
+                      close
+                    </Button>
+                  </span>
+                  {content}
+                </motion.div>
+              </motion.div>
+            </div>,
+            document.body
+          )}
+        </div>
+      )}
+    </AnimatePresence>
+  );
 };
