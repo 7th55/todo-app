@@ -1,11 +1,10 @@
 // Hooks
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 // Components
 import { Button } from 'shared/UI/Button';
 import { Input } from 'shared/UI/Input';
 // Styles
 import classes from './styles.module.scss';
-import { useIsPresent } from 'framer-motion';
 
 type Project = {
   name: string;
@@ -31,7 +30,10 @@ export const ProjectForm = (props: ProjectFormProps) => {
   const [projectForm, setProjectForm] = useState(projectFormInitialState);
 
   const createHandler = () => {
-    createProjectHandler({ name: projectForm.name.value });
+    const timer = setInterval(() => {
+      createProjectHandler({ name: projectForm.name.value });
+      clearInterval(timer);
+    }, 500);
     upperLayerHandler();
   };
 

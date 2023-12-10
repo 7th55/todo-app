@@ -82,7 +82,3 @@
 .projectCardContainer {
   z-index: 30;
 }
-
-.projectCard:first-child {
-  margin-top: 5px;
-}

@@ -55,17 +55,19 @@ export const CreateProjectLayer = (props: CreateProjectLayerProps) => {
           <div className={classes.hoverHere}>
             <div>
               {projects.map((project, index) => (
-                <div
-                  className={classes.projectCard}
-                  key={project.id}
-                  style={{ visibility: 'hidden' }}
-                >
-                  <ProjectCard
+                <div>
+                  <div
+                    className={classes.projectCard}
                     key={project.id}
-                    index={index}
-                    project={project}
-                    onClickHandler={() => {}}
-                  />
+                    style={{ visibility: 'hidden' }}
+                  >
+                    <ProjectCard
+                      key={project.id}
+                      index={index}
+                      project={project}
+                      onClickHandler={() => {}}
+                    />
+                  </div>
                 </div>
               ))}
             </div>

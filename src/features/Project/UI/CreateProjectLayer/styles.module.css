@@ -23,9 +23,7 @@
   height: 100%;
   border-radius: 10px;
 }
-.projectCard:first-child {
-  margin-top: 5px;
-}
+
 .hoverHere {
   z-index: 5;
   display: flex;
