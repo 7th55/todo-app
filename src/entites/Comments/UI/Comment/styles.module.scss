@@ -1,0 +1,43 @@
+.comment {
+  margin: 10px 0 10px 1em;
+  background-color: var(--palette_commentbg);
+  color: var(--palette_text);
+  border: 1px solid var(--palette_border);
+  border-radius: 3px;
+  overflow: auto;
+  max-height: 600px;
+  padding: 16px;
+}
+
+.info {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.commentId {
+  color: var(--palette_id);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.replies {
+  padding: 10px;
+  background-color: var(--palette_bg);
+}
+
+.repliesButtons {
+  display: flex;
+  gap: 5px;
+
+  & span {
+    font-size: inherit;
+  }
+}
+
+@media (max-width: 480px) {
+  .comment {
+    padding: 8px;
+    font-size: 1rem;
+  }
+}

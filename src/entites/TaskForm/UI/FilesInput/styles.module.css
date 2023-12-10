@@ -1,0 +1,45 @@
+.filesInputBox {
+  display: block;
+  position: relative;
+}
+
+.filesInput {
+  color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 23px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.filesInput::-webkit-file-upload-button {
+  background: transparent;
+  color: transparent;
+  border: none;
+  outline: none;
+  width: 71.63px;
+  height: 100%;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.filesInputCustomButton {
+  display: flex;
+  width: 100%;
+  gap: 5px;
+  left: 0px;
+  top: 0px;
+}
+
+.filesHeader {
+  margin: 0;
+}
+
+.filesFileName {
+  margin: 0;
+  max-width: 295px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

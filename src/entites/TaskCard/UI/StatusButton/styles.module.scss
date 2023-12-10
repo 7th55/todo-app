@@ -1,0 +1,14 @@
+.buttonsBox {
+  min-width: 190px;
+}
+
+@media (max-width: 1260px) {
+  .bigButton {
+    height: 62px;
+  }
+  .buttonsBox {
+    display: flex;
+    flex-direction: column;
+    min-width: 50%;
+  }
+}

@@ -1,0 +1,15 @@
+.taskBox {
+  display: flex;
+  width: 100%;
+}
+
+.taskNumber {
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  font-weight: 700;
+  height: 20px;
+  padding: 5px;
+  background-color: aliceblue;
+  color: black;
+}

@@ -1,0 +1,10 @@
+.formTitle {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.inputsAndButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

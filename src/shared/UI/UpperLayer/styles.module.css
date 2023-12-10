@@ -1,0 +1,30 @@
+.content {
+  position: fixed;
+  top: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 100;
+  background-color: var(--palette_bg);
+  padding: 10px;
+  margin: 0 20px;
+}
+
+.closeButton {
+  display: flex;
+  align-self: flex-end;
+  margin-bottom: 10px;
+}
+
+.upperLayer {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
