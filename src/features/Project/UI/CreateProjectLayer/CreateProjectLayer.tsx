@@ -23,22 +23,20 @@ export const CreateProjectLayer = (props: CreateProjectLayerProps) => {
         <div className={classes.createProject}>
           {projects.length ? (
             <>
-              <div>
-                {projects.map((project, index) => (
-                  <div
-                    className={classes.projectCard}
+              {projects.map((project, index) => (
+                <div
+                  className={classes.projectCard}
+                  key={project.id}
+                  style={{ visibility: 'hidden' }}
+                >
+                  <ProjectCard
                     key={project.id}
-                    style={{ visibility: 'hidden' }}
-                  >
-                    <ProjectCard
-                      key={project.id}
-                      index={index}
-                      project={project}
-                      onClickHandler={() => {}}
-                    />
-                  </div>
-                ))}
-              </div>
+                    index={index}
+                    project={project}
+                    onClickHandler={() => {}}
+                  />
+                </div>
+              ))}
               <div className={classes.createProjectContainer}>
                 <h4>Create Project</h4>
               </div>
@@ -53,24 +51,20 @@ export const CreateProjectLayer = (props: CreateProjectLayerProps) => {
       {type === 'HoverAndClick' && (
         <>
           <div className={classes.hoverHere}>
-            <div>
-              {projects.map((project, index) => (
-                <div>
-                  <div
-                    className={classes.projectCard}
-                    key={project.id}
-                    style={{ visibility: 'hidden' }}
-                  >
-                    <ProjectCard
-                      key={project.id}
-                      index={index}
-                      project={project}
-                      onClickHandler={() => {}}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+            {projects.map((project, index) => (
+              <div
+                className={classes.projectCard}
+                key={project.id}
+                style={{ visibility: 'hidden' }}
+              >
+                <ProjectCard
+                  key={project.id}
+                  index={index}
+                  project={project}
+                  onClickHandler={() => {}}
+                />
+              </div>
+            ))}
             {!showCreateProjectLayer && (
               <div className={classes.messages}>
                 <h4>Hover and click to Create Project</h4>

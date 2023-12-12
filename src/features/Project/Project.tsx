@@ -16,6 +16,13 @@ type ProjectProps = {
   createProjectHandler: () => void;
 };
 
+const Space = () => (
+  <span
+    onClick={(e) => e.stopPropagation()}
+    style={{ height: '5px', zIndex: 100 }}
+  />
+);
+
 export const Project = (props: ProjectProps) => {
   const { createProjectHandler, clearTasksHandler } = props;
 
@@ -31,6 +38,7 @@ export const Project = (props: ProjectProps) => {
         className={classes.project}
         style={{ paddingTop: projects.length ? undefined : '5px' }}
       >
+        <Space />
         <div className={classes.projectCardContainer}>
           {projects.length
             ? projects.map((project, index) => (
