@@ -1,8 +1,9 @@
 // Hooks
+import { useEffect, useState } from 'react';
+import { useProject } from '../model/projectReducer';
 import { useProjectAnimation } from 'features/Project/hooks';
 // Components
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
 
 export const ProjectAnimations = (props: {
   children: React.ReactNode;
@@ -13,11 +14,13 @@ export const ProjectAnimations = (props: {
 
   const [height, setHeight] = useState('0px');
 
+  const projects = useProject();
+
   useEffect(() => {
     const projectElement = document.getElementById('Project') as HTMLElement;
     const height = projectElement.clientHeight + 10;
     setHeight(`${height}px`);
-  }, [height]);
+  }, [height, projects]);
 
   const scope = useProjectAnimation({
     projectClass,
@@ -27,8 +30,10 @@ export const ProjectAnimations = (props: {
     <motion.div
       ref={scope}
       style={{ overflow: 'hidden' }}
-      animate={{ height: ['0px', height] }}
+      initial={{ height: '0px' }}
+      animate={{ height: height }}
       transition={{ duration: 0.3 }}
+      layout
     >
       {children}
     </motion.div>
