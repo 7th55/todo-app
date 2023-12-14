@@ -17,7 +17,6 @@ export const ProjectAnimations = (props: {
     const projectElement = document.getElementById('Project') as HTMLElement;
     const height = projectElement.clientHeight + 10;
     setHeight(`${height}px`);
-    console.log(height);
   }, [height]);
 
   const scope = useProjectAnimation({
