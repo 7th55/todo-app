@@ -26,3 +26,5 @@ export const checkWidth = () => {
 };
 
 export const isEmptyString = (value: string) => value.trim() === '';
+
+export const className = (className: string) => `.${className}`;
