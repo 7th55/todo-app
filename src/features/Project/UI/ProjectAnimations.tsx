@@ -4,6 +4,8 @@ import { useProject } from '../model/projectReducer';
 import { useProjectAnimation } from 'features/Project/hooks';
 // Components
 import { motion } from 'framer-motion';
+// Lib
+import { transition } from 'shared/animations.config';
 
 export const ProjectAnimations = (props: {
   children: React.ReactNode;
@@ -32,7 +34,7 @@ export const ProjectAnimations = (props: {
       style={{ overflow: 'hidden' }}
       initial={{ height: '0px' }}
       animate={{ height: height }}
-      transition={{ duration: 0.3 }}
+      transition={transition}
       layout
     >
       {children}
