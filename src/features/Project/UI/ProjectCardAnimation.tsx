@@ -1,7 +1,7 @@
 // Comoponents
 import { motion } from 'framer-motion';
 // Lib
-import { transition } from 'shared/animations.config';
+import { animationStyles, animationTransition } from 'shared/animations.config';
 
 type ProjectCardAnimationProps = {
   children: React.ReactNode;
@@ -11,7 +11,10 @@ export const ProjectCardAnimation = (props: ProjectCardAnimationProps) => {
   const { children } = props;
 
   return (
-    <motion.div animate={{ opacity: [0, 1] }} transition={transition}>
+    <motion.div
+      animate={{ opacity: animationStyles.opacity }}
+      transition={animationTransition}
+    >
       {children}
     </motion.div>
   );
