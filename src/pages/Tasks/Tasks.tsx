@@ -10,6 +10,7 @@ import { useLayoutEffect, useState } from 'react';
 import { useProject } from 'features/Project/model/projectReducer';
 import { useFilter } from 'features/Filter/model/filterReducer';
 // Components
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from 'shared/UI/Button';
 import { Task as TasksFeature } from 'features/Task';
@@ -31,6 +32,7 @@ import {
   isOpenUpperLayer,
   useUpperLayer,
 } from 'shared/UI/UpperLayer/model/upperLayerReducer';
+import { animationTransition } from 'shared/animations.config';
 
 export const Tasks = () => {
   // Modal Views
@@ -185,7 +187,13 @@ export const Tasks = () => {
   };
 
   return (
-    <section style={{ margin: '0 10px 0 10px' }}>
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={animationTransition}
+      style={{ margin: '0 10px 0 10px' }}
+    >
       <h1>Tasks Page</h1>
       <nav>
         <Link to="/">Back To Projects</Link>
@@ -315,6 +323,6 @@ export const Tasks = () => {
           closeModal={() => setUpperLayer(null)}
         />
       )}
-    </section>
+    </motion.section>
   );
 };
