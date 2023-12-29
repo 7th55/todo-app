@@ -1,8 +1,14 @@
 // Hooks
 import { useEffect, useMemo } from 'react';
 import { useAnimate } from 'framer-motion';
-// Lib
-import { animationStyles, animationTransition } from 'shared/animations.config';
+
+const animationStyles = {
+  opacity: [0, 1],
+};
+
+const animationTransition = {
+  duration: 1,
+};
 
 export function useProjectAnimation({ projectClass, projectCardClass }: any) {
   const [scope, animate] = useAnimate<any>();
@@ -17,16 +23,8 @@ export function useProjectAnimation({ projectClass, projectCardClass }: any) {
     const className = (className: string) => `.${className}`;
 
     const sequence: any = [
-      [
-        className(projectClassMemo),
-        { opacity: animationStyles.opacity },
-        animationTransition,
-      ],
-      [
-        className(projectCardClassMemo),
-        { opacity: animationStyles.opacity },
-        animationTransition,
-      ],
+      [className(projectClassMemo), animationStyles, animationTransition],
+      [className(projectCardClassMemo), animationStyles, animationTransition],
     ];
 
     animate(sequence);

@@ -1,7 +1,14 @@
-export const animationStyles = {
-  opacity: [0, 1],
-};
-
-export const animationTransition = {
-  duration: 1,
+export const variants = {
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 1,
+    },
+  },
+  hidden: {
+    opacity: 0,
+    transition: {
+      duration: 1,
+    },
+  },
 };
