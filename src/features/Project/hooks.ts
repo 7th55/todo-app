@@ -1,13 +1,10 @@
 // Hooks
 import { useEffect, useMemo } from 'react';
 import { useAnimate } from 'framer-motion';
+import { TRANSITION_DURATION, variants } from 'shared/animations.config';
 
-const animationStyles = {
-  opacity: [0, 1],
-};
-
-const animationTransition = {
-  duration: 1,
+const animation = {
+  opacity: [variants.hidden.opacity, variants.visible.opacity],
 };
 
 export function useProjectAnimation({ projectClass, projectCardClass }: any) {
@@ -23,11 +20,11 @@ export function useProjectAnimation({ projectClass, projectCardClass }: any) {
     const className = (className: string) => `.${className}`;
 
     const sequence: any = [
-      [className(projectClassMemo), animationStyles, animationTransition],
-      [className(projectCardClassMemo), animationStyles, animationTransition],
+      [className(projectClassMemo), animation],
+      [className(projectCardClassMemo), animation],
     ];
 
-    animate(sequence);
+    animate(sequence, { duration: TRANSITION_DURATION });
   }, [animate, projectClassMemo, projectCardClassMemo]);
 
   return scope;
