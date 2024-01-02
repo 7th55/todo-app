@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useProject } from '../model/projectReducer';
 import { useProjectAnimation } from 'features/Project/hooks';
 // Components
-import { motion } from 'framer-motion';
+import { motion, useAnimate } from 'framer-motion';
 import { variants } from 'shared/animations.config';
 // Lib
 
@@ -18,11 +18,11 @@ export const ProjectAnimations = (props: {
 
   const projects = useProject();
 
-  useEffect(() => {
-    const projectElement = document.getElementById('Project') as HTMLElement;
-    const height = projectElement.clientHeight + 10;
-    setHeight(`${height}px`);
-  }, [height, projects]);
+  // useEffect(() => {
+  //   const projectElement = document.getElementById('Project') as HTMLElement;
+  //   const height = projectElement.clientHeight + 10;
+  //   setHeight(`${height}px`);
+  // }, [height, projects]);
 
   const scope = useProjectAnimation({
     projectClass,
@@ -31,10 +31,10 @@ export const ProjectAnimations = (props: {
   return (
     <motion.div
       ref={scope}
-      style={{ overflow: 'hidden' }}
-      initial={{ height: '0px' }}
-      animate={{ height: height }}
-      transition={variants.visible.transition}
+      // style={{ overflow: 'hidden' }}
+      // initial={{ height: '0px' }}
+      // animate={{ height: height }}
+      // transition={variants.visible.transition}
       layout
     >
       {children}
