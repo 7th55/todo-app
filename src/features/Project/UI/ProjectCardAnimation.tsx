@@ -1,5 +1,5 @@
 // Comoponents
-import { motion } from 'framer-motion';
+import { motion, stagger } from 'framer-motion';
 // Lib
 import { variants } from 'shared/animations.config';
 
@@ -11,7 +11,12 @@ export const ProjectCardAnimation = (props: ProjectCardAnimationProps) => {
   const { children } = props;
 
   return (
-    <motion.div initial="visible" exit="hidden" variants={variants}>
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      variants={variants}
+    >
       {children}
     </motion.div>
   );

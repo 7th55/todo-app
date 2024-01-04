@@ -1,6 +1,6 @@
 // Hooks
-import { useEffect, useMemo } from 'react';
-import { useAnimate } from 'framer-motion';
+import { useEffect, useMemo, useState } from 'react';
+import { stagger, useAnimate } from 'framer-motion';
 import { TRANSITION_DURATION, variants } from 'shared/animations.config';
 import { useProject } from './model/projectReducer';
 
@@ -8,7 +8,13 @@ const animation = {
   opacity: [variants.hidden.opacity, variants.visible.opacity],
 };
 
-export function useProjectAnimation({ projectClass, projectCardClass }: any) {
+export function useProjectAnimation({
+  projectClass,
+  projectCardClass,
+}: {
+  projectClass: string;
+  projectCardClass: string;
+}) {
   const [scope, animate] = useAnimate<any>();
 
   const projectClassMemo = useMemo(() => projectClass, [projectClass]);
@@ -22,32 +28,63 @@ export function useProjectAnimation({ projectClass, projectCardClass }: any) {
 
     const sequence: any = [
       [className(projectClassMemo), animation],
-      [className(projectCardClassMemo), animation],
+      [
+        className(projectCardClassMemo),
+        animation,
+        {
+          delay: stagger(0.1),
+        },
+      ],
     ];
 
     animate(sequence, { duration: TRANSITION_DURATION });
   }, [animate, projectClassMemo, projectCardClassMemo]);
 
-  const pj = useProject();
+  const projects = useProject();
+
+  const PROJECT_CARD_HEIGHT = 75;
 
   useEffect(() => {
     const className = (className: string) => `.${className}`;
 
     animate(
       className(projectClassMemo),
-      { height: `${pj.length ? 72 * pj.length + 87 : 87}px` },
+      {
+        height: `${
+          projects.length
+            ? PROJECT_CARD_HEIGHT * projects.length + PROJECT_CARD_HEIGHT
+            : PROJECT_CARD_HEIGHT
+        }px`,
+      },
       { duration: TRANSITION_DURATION }
     );
-  }, [pj]);
+  }, [projects.length]);
 
   useEffect(() => {
     const className = (className: string) => `.${className}`;
 
-    animate(
-      className(projectClassMemo),
-      { height: ['0px', `${pj.length ? 72 * pj.length + 87 : 87}px`] },
-      { duration: TRANSITION_DURATION }
-    );
+    if (projects.length >= 1) {
+      animate(
+        className(projectClassMemo),
+        {
+          height: [
+            '0px',
+            `${
+              projects.length
+                ? PROJECT_CARD_HEIGHT * projects.length + PROJECT_CARD_HEIGHT
+                : PROJECT_CARD_HEIGHT
+            }px`,
+          ],
+        },
+        { duration: TRANSITION_DURATION }
+      );
+    } else {
+      animate(
+        className(projectClassMemo),
+        { height: [`${PROJECT_CARD_HEIGHT}px`] },
+        { duration: TRANSITION_DURATION }
+      );
+    }
   }, []);
 
   return scope;
