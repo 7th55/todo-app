@@ -1,5 +1,5 @@
 // Hooks
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { stagger, useAnimate } from 'framer-motion';
 import { TRANSITION_DURATION, variants } from 'shared/animations.config';
 import { useProject } from './model/projectReducer';
@@ -42,24 +42,6 @@ export function useProjectAnimation({
 
   const projects = useProject();
 
-  const PROJECT_CARD_HEIGHT = 75;
-
-  useEffect(() => {
-    const className = (className: string) => `.${className}`;
-
-    animate(
-      className(projectClassMemo),
-      {
-        height: `${
-          projects.length
-            ? PROJECT_CARD_HEIGHT * projects.length + PROJECT_CARD_HEIGHT
-            : PROJECT_CARD_HEIGHT
-        }px`,
-      },
-      { duration: TRANSITION_DURATION }
-    );
-  }, [projects.length]);
-
   useEffect(() => {
     const className = (className: string) => `.${className}`;
 
@@ -67,21 +49,8 @@ export function useProjectAnimation({
       animate(
         className(projectClassMemo),
         {
-          height: [
-            '0px',
-            `${
-              projects.length
-                ? PROJECT_CARD_HEIGHT * projects.length + PROJECT_CARD_HEIGHT
-                : PROJECT_CARD_HEIGHT
-            }px`,
-          ],
+          height: ['0%', '100%'],
         },
-        { duration: TRANSITION_DURATION }
-      );
-    } else {
-      animate(
-        className(projectClassMemo),
-        { height: [`${PROJECT_CARD_HEIGHT}px`] },
         { duration: TRANSITION_DURATION }
       );
     }

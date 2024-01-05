@@ -1,10 +1,18 @@
 // Comoponents
 import { motion, stagger } from 'framer-motion';
 // Lib
-import { variants } from 'shared/animations.config';
+import { TRANSITION_DURATION, variants } from 'shared/animations.config';
 
 type ProjectCardAnimationProps = {
   children: React.ReactNode;
+};
+
+const specialExitAnimation = {
+  opacity: [1, 0],
+  height: ['100%', '0%'],
+  transition: {
+    duration: TRANSITION_DURATION,
+  },
 };
 
 export const ProjectCardAnimation = (props: ProjectCardAnimationProps) => {
@@ -14,8 +22,10 @@ export const ProjectCardAnimation = (props: ProjectCardAnimationProps) => {
     <motion.div
       initial="hidden"
       animate="visible"
-      exit="hidden"
+      exit={specialExitAnimation}
       variants={variants}
+      layout
+      style={{ overflow: 'hidden' }}
     >
       {children}
     </motion.div>
