@@ -1,6 +1,6 @@
 // Hooks
 import { useEffect, useMemo } from 'react';
-import { stagger, useAnimate } from 'framer-motion';
+import { AnimationSequence, stagger, useAnimate } from 'framer-motion';
 import { TRANSITION_DURATION, variants } from 'shared/animations.config';
 import { useProject } from './model/projectReducer';
 
@@ -26,7 +26,7 @@ export function useProjectAnimation({
   useEffect(() => {
     const className = (className: string) => `.${className}`;
 
-    const sequence: any = [
+    const sequence: AnimationSequence = [
       [className(projectClassMemo), animation],
       [
         className(projectCardClassMemo),
@@ -46,13 +46,25 @@ export function useProjectAnimation({
     const className = (className: string) => `.${className}`;
 
     if (projects.length >= 1) {
-      animate(
-        className(projectClassMemo),
-        {
-          height: ['0%', '100%'],
-        },
-        { duration: TRANSITION_DURATION }
-      );
+      const seq: AnimationSequence = [
+        [
+          className(projectClassMemo),
+
+          {
+            height: ['0px', `${72 * projects.length + 72 + 12}px`],
+          },
+        ],
+        [
+          className(projectClassMemo),
+
+          {
+            height: '100%',
+          },
+        ],
+      ];
+      animate(seq, {
+        duration: 5,
+      });
     }
   }, []);
 
