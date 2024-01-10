@@ -1,7 +1,7 @@
 // Hooks
 import { useEffect, useMemo } from 'react';
 import { AnimationSequence, stagger, useAnimate } from 'framer-motion';
-import { TRANSITION_DURATION, variants } from 'shared/animations.config';
+import { variants } from 'shared/animations.config';
 import { useProject } from './model/projectReducer';
 
 const animation = {
@@ -27,7 +27,6 @@ export function useProjectAnimation({
     const className = (className: string) => `.${className}`;
 
     const sequence: AnimationSequence = [
-      [className(projectClassMemo), animation],
       [
         className(projectCardClassMemo),
         animation,
@@ -37,7 +36,7 @@ export function useProjectAnimation({
       ],
     ];
 
-    animate(sequence, { duration: TRANSITION_DURATION });
+    animate(sequence, { duration: 2.5 });
   }, [animate, projectClassMemo, projectCardClassMemo]);
 
   const projects = useProject();
