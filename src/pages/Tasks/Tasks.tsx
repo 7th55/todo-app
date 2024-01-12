@@ -10,6 +10,7 @@ import { useLayoutEffect, useState } from 'react';
 import { useProject } from 'features/Project/model/projectReducer';
 import { useFilter } from 'features/Filter/model/filterReducer';
 // Components
+import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from 'shared/UI/Button';
 import { Task as TasksFeature } from 'features/Task';
@@ -32,6 +33,7 @@ import {
   isOpenUpperLayer,
   useUpperLayer,
 } from 'shared/UI/UpperLayer/model/upperLayerReducer';
+import { variants } from 'shared/animations.config';
 
 export const Tasks = () => {
   // Modal Views
@@ -213,9 +215,16 @@ export const Tasks = () => {
             />
           ) : null}
         </div>
-        {tasks?.length ? (
-          <>
-            <div className={classes.tasksColumns}>
+        <AnimatePresence>
+          {tasks?.length ? (
+            <motion.div
+              key="TasksColumn"
+              initial="hidden"
+              animate="visible"
+              exit={'hidden'}
+              variants={variants}
+              className={classes.tasksColumns}
+            >
               <div
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => {
@@ -261,11 +270,11 @@ export const Tasks = () => {
                   <TasksFeature status={'Done'} {...taskProps} />
                 </div>
               </div>
-            </div>
-          </>
-        ) : (
-          <h3>Create Task Pls</h3>
-        )}
+            </motion.div>
+          ) : (
+            <motion.h3 initial>Create Task Pls</motion.h3>
+          )}
+        </AnimatePresence>
         {/* Modal Views */}
         {upperLayer === 'Create' && (
           <UpperLayer content={<CreateTaskForm projectId={project.id} />} />
