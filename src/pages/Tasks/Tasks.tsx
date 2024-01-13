@@ -215,7 +215,7 @@ export const Tasks = () => {
             />
           ) : null}
         </div>
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {tasks?.length ? (
             <motion.div
               key="TasksColumn"
@@ -272,7 +272,15 @@ export const Tasks = () => {
               </div>
             </motion.div>
           ) : (
-            <motion.h3 initial>Create Task Pls</motion.h3>
+            <motion.h3
+              key="TasksHeader"
+              initial="hidden"
+              animate="visible"
+              exit={'hidden'}
+              variants={variants}
+            >
+              Create Task Pls
+            </motion.h3>
           )}
         </AnimatePresence>
         {/* Modal Views */}
