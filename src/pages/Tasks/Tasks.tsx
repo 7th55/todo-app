@@ -34,6 +34,7 @@ import {
   useUpperLayer,
 } from 'shared/UI/UpperLayer/model/upperLayerReducer';
 import { variants } from 'shared/animations.config';
+import { TasksContextProvider } from './TasksContextProvider';
 
 export const Tasks = () => {
   // Modal Views
@@ -189,152 +190,156 @@ export const Tasks = () => {
 
   return (
     <PagesAnimation keyProp="tasksPage">
-      <section style={{ margin: '0 10px 0 10px' }}>
-        <h1>Tasks Page</h1>
-        <nav>
-          <Link to="/">Back To Projects</Link>
-        </nav>
-        <div className={classes.projectInfo}>
-          <h3>Project Name: {project.name}</h3>
-          <h3>Project Id: {project.id}</h3>
-        </div>
-        <div className={classes.tasksButtons}>
-          <Button
-            onClickHandler={() => {
-              setUpperLayer('Create');
-              dispatch(isOpenUpperLayer({ isOpen: true }));
-            }}
-          >
-            Create Task
-          </Button>
-          {tasks?.length ? (
-            <Filter
-              tasks={tasks}
-              tasksState={tasksState}
-              open={() => setFilterIsOpen(!filterIsOpen)}
-            />
-          ) : null}
-        </div>
-        <AnimatePresence mode="wait">
-          {tasks?.length ? (
-            <motion.div
-              key="TasksColumn"
-              initial="hidden"
-              animate="visible"
-              exit={'hidden'}
-              variants={variants}
-              className={classes.tasksColumns}
+      <TasksContextProvider
+        value={taskProps.handlers as typeof taskProps.handlers}
+      >
+        <section style={{ margin: '0 10px 0 10px' }}>
+          <h1>Tasks Page</h1>
+          <nav>
+            <Link to="/">Back To Projects</Link>
+          </nav>
+          <div className={classes.projectInfo}>
+            <h3>Project Name: {project.name}</h3>
+            <h3>Project Id: {project.id}</h3>
+          </div>
+          <div className={classes.tasksButtons}>
+            <Button
+              onClickHandler={() => {
+                setUpperLayer('Create');
+                dispatch(isOpenUpperLayer({ isOpen: true }));
+              }}
             >
-              <div
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                  setTaskStatus('Queue');
-                }}
-                className={classes.taskCol}
-                style={{
-                  backgroundColor: 'rgba(255, 172, 0, 0.61)',
-                }}
+              Create Task
+            </Button>
+            {tasks?.length ? (
+              <Filter
+                tasks={tasks}
+                tasksState={tasksState}
+                open={() => setFilterIsOpen(!filterIsOpen)}
+              />
+            ) : null}
+          </div>
+          <AnimatePresence mode="wait">
+            {tasks?.length ? (
+              <motion.div
+                key="TasksColumn"
+                initial="hidden"
+                animate="visible"
+                exit={'hidden'}
+                variants={variants}
+                className={classes.tasksColumns}
               >
-                <h3 className={classes.taskColTitle}>Queue</h3>
-                <div className={classes.taskColContent}>
-                  <TasksFeature status={'Queue'} {...taskProps} />
+                <div
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    setTaskStatus('Queue');
+                  }}
+                  className={classes.taskCol}
+                  style={{
+                    backgroundColor: 'rgba(255, 172, 0, 0.61)',
+                  }}
+                >
+                  <h3 className={classes.taskColTitle}>Queue</h3>
+                  <div className={classes.taskColContent}>
+                    <TasksFeature status={'Queue'} {...taskProps} />
+                  </div>
                 </div>
-              </div>
-              <div
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                  setTaskStatus('Development');
-                }}
-                className={classes.taskCol}
-                style={{
-                  backgroundColor: 'rgba(195, 255, 56, 0.61)',
-                }}
+                <div
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    setTaskStatus('Development');
+                  }}
+                  className={classes.taskCol}
+                  style={{
+                    backgroundColor: 'rgba(195, 255, 56, 0.61)',
+                  }}
+                >
+                  <h3 className={classes.taskColTitle}>Development</h3>
+                  <div className={classes.taskColContent}>
+                    <TasksFeature status={'Development'} {...taskProps} />
+                  </div>
+                </div>
+                <div
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    setTaskStatus('Done');
+                  }}
+                  className={classes.taskCol}
+                  style={{
+                    backgroundColor: 'rgba(0, 255, 55, 0.67)',
+                  }}
+                >
+                  <h3 className={classes.taskColTitle}>Done</h3>
+                  <div className={classes.taskColContent}>
+                    <TasksFeature status={'Done'} {...taskProps} />
+                  </div>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.h3
+                key="TasksHeader"
+                initial="hidden"
+                animate="visible"
+                exit={'hidden'}
+                variants={variants}
               >
-                <h3 className={classes.taskColTitle}>Development</h3>
-                <div className={classes.taskColContent}>
-                  <TasksFeature status={'Development'} {...taskProps} />
-                </div>
-              </div>
-              <div
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                  setTaskStatus('Done');
-                }}
-                className={classes.taskCol}
-                style={{
-                  backgroundColor: 'rgba(0, 255, 55, 0.67)',
-                }}
-              >
-                <h3 className={classes.taskColTitle}>Done</h3>
-                <div className={classes.taskColContent}>
-                  <TasksFeature status={'Done'} {...taskProps} />
-                </div>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.h3
-              key="TasksHeader"
-              initial="hidden"
-              animate="visible"
-              exit={'hidden'}
-              variants={variants}
-            >
-              Create Task Pls
-            </motion.h3>
+                Create Task Pls
+              </motion.h3>
+            )}
+          </AnimatePresence>
+          {/* Modal Views */}
+          {upperLayer === 'Create' && (
+            <UpperLayer content={<CreateTaskForm projectId={project.id} />} />
           )}
-        </AnimatePresence>
-        {/* Modal Views */}
-        {upperLayer === 'Create' && (
-          <UpperLayer content={<CreateTaskForm projectId={project.id} />} />
-        )}
-        {upperLayer === 'CreateSubTask' && (
-          <UpperLayer
-            content={
-              <CreateSubTaskForm
-                projectId={project.id}
-                taskState={editTaskData?.taskState as Task}
-                closeModal={() => setUpperLayer(null)}
-              />
-            }
-            closeModal={() => setUpperLayer(null)}
-          />
-        )}
-        {upperLayer === 'Edit' && (
-          <UpperLayer
-            content={
-              <EditTaskForm
-                projectId={project.id}
-                taskState={editTaskData?.taskState as Task}
-              />
-            }
-          />
-        )}
-        {upperLayer === 'AddComment' && (
-          <UpperLayer
-            content={
-              <AddCommentForm
-                projectId={project.id}
-                taskId={addComment?.taskId as string}
-                closeModal={() => setUpperLayer(null)}
-              />
-            }
-            closeModal={() => setUpperLayer(null)}
-          />
-        )}
-        {upperLayer === 'ReplyComment' && (
-          <UpperLayer
-            content={
-              <ReplyCommentForm
-                projectId={project.id}
-                taskId={addComment?.taskId as string}
-                commentAuthorId={addComment?.commentAuthorId as string}
-                closeModal={() => setUpperLayer(null)}
-              />
-            }
-            closeModal={() => setUpperLayer(null)}
-          />
-        )}
-      </section>
+          {upperLayer === 'CreateSubTask' && (
+            <UpperLayer
+              content={
+                <CreateSubTaskForm
+                  projectId={project.id}
+                  taskState={editTaskData?.taskState as Task}
+                  closeModal={() => setUpperLayer(null)}
+                />
+              }
+              closeModal={() => setUpperLayer(null)}
+            />
+          )}
+          {upperLayer === 'Edit' && (
+            <UpperLayer
+              content={
+                <EditTaskForm
+                  projectId={project.id}
+                  taskState={editTaskData?.taskState as Task}
+                />
+              }
+            />
+          )}
+          {upperLayer === 'AddComment' && (
+            <UpperLayer
+              content={
+                <AddCommentForm
+                  projectId={project.id}
+                  taskId={addComment?.taskId as string}
+                  closeModal={() => setUpperLayer(null)}
+                />
+              }
+              closeModal={() => setUpperLayer(null)}
+            />
+          )}
+          {upperLayer === 'ReplyComment' && (
+            <UpperLayer
+              content={
+                <ReplyCommentForm
+                  projectId={project.id}
+                  taskId={addComment?.taskId as string}
+                  commentAuthorId={addComment?.commentAuthorId as string}
+                  closeModal={() => setUpperLayer(null)}
+                />
+              }
+              closeModal={() => setUpperLayer(null)}
+            />
+          )}
+        </section>
+      </TasksContextProvider>
     </PagesAnimation>
   );
 };

@@ -1,5 +1,11 @@
 // Hooks
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import {
   isOpenUpperLayer,
@@ -18,6 +24,8 @@ import { Task } from 'shared/types';
 import { DevTimer } from './UI/DevTimer/DevTimer';
 // Styles
 import classes from './styles.module.scss';
+import { TasksHandlers } from 'pages/Tasks/TasksContextProvider';
+import { TasksProps } from 'features/Task/Task';
 
 type TaskCardProps = {
   status: Task['status'];
@@ -41,6 +49,10 @@ type TaskCardProps = {
 };
 
 export const TaskCard = (props: TaskCardProps) => {
+  const { timeTaskHandler } = useContext(
+    TasksHandlers
+  ) as TasksProps['handlers'];
+
   const {
     status,
     task,
@@ -48,7 +60,7 @@ export const TaskCard = (props: TaskCardProps) => {
       editTaskHandler,
       changeTaskStatusHandler,
       editHandler,
-      timeTaskHandler,
+      // timeTaskHandler,
       deleteTaskHandler,
       createSubTaskHandler,
       changeSubTaskStatusHandler,
@@ -71,7 +83,7 @@ export const TaskCard = (props: TaskCardProps) => {
 
   useEffect(() => {
     if (status === 'Queue') {
-      timeTaskHandler({
+      timeTaskHandler(task, {
         done: {
           ms: 0,
           time: '',
@@ -81,7 +93,7 @@ export const TaskCard = (props: TaskCardProps) => {
     }
 
     if (status === 'Development') {
-      timeTaskHandler({
+      timeTaskHandler(task, {
         done: {
           ms: 0,
           time: '',
@@ -89,7 +101,7 @@ export const TaskCard = (props: TaskCardProps) => {
         },
       });
       task.time.development.ms === 0 &&
-        timeTaskHandler({
+        timeTaskHandler(task, {
           development: {
             ms: getTaskTime().ms,
             date: getTaskTime().date,
@@ -105,7 +117,7 @@ export const TaskCard = (props: TaskCardProps) => {
     }
 
     if (status === 'Done') {
-      timeTaskHandler({
+      timeTaskHandler(task, {
         done: getTaskTime(),
       });
     }
@@ -113,7 +125,7 @@ export const TaskCard = (props: TaskCardProps) => {
 
   const timeInDevHandler = useCallback(
     (timeInDev: number) => {
-      timeTaskHandler({
+      timeTaskHandler(task, {
         development: {
           ...task.time.development,
           timeInDev,
