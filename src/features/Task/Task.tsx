@@ -47,9 +47,7 @@ export const Task = (props: TasksProps) => {
       changeTaskStatusDnDHandler: changeTaskStatusHandler,
       editHandler,
       deleteTaskHandler,
-      timeTaskHandler,
       addCommentHandler,
-      addCommentReplyHandler,
       createSubTaskHandler,
       changeSubTaskStatusHandler,
       deleteSubTaskHandler,
@@ -79,13 +77,10 @@ export const Task = (props: TasksProps) => {
               changeTaskStatusHandler,
               editHandler: () => editHandler(task),
               deleteTaskHandler: () => deleteTaskHandler(task),
-              timeTaskHandler: (time: Partial<TaskType['time']>) =>
-                timeTaskHandler(task, time),
               createSubTaskHandler: () => createSubTaskHandler(task),
               changeSubTaskStatusHandler,
               deleteSubTaskHandler,
               addCommentHandler: () => addCommentHandler(task.taskId),
-              addCommentReplyHandler,
             },
           };
           return (

@@ -34,7 +34,6 @@ type TaskCardProps = {
     editTaskHandler: (taskState: Task, changedFields: Partial<Task>) => void;
     changeTaskStatusHandler: (taskState: Task) => void;
     editHandler: () => void;
-    timeTaskHandler: (time: Partial<Task['time']>) => void;
     deleteTaskHandler: () => void;
     createSubTaskHandler: () => void;
     changeSubTaskStatusHandler: (
@@ -44,12 +43,11 @@ type TaskCardProps = {
     ) => void;
     deleteSubTaskHandler: (task: Task, subTask: Task) => void;
     addCommentHandler: () => void;
-    addCommentReplyHandler: (taskId: string, commentAuthorID: string) => void;
   };
 };
 
 export const TaskCard = (props: TaskCardProps) => {
-  const { timeTaskHandler } = useContext(
+  const { timeTaskHandler, addCommentReplyHandler } = useContext(
     TasksHandlers
   ) as TasksProps['handlers'];
 
@@ -60,13 +58,11 @@ export const TaskCard = (props: TaskCardProps) => {
       editTaskHandler,
       changeTaskStatusHandler,
       editHandler,
-      // timeTaskHandler,
       deleteTaskHandler,
       createSubTaskHandler,
       changeSubTaskStatusHandler,
       deleteSubTaskHandler,
       addCommentHandler,
-      addCommentReplyHandler,
     },
   } = props;
 
