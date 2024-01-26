@@ -47,17 +47,18 @@ type TaskCardProps = {
 };
 
 export const TaskCard = (props: TaskCardProps) => {
-  const { timeTaskHandler, addCommentReplyHandler } = useContext(
-    TasksHandlers
-  ) as TasksProps['handlers'];
+  const {
+    editTaskHandler,
+    changeTaskStatusDnDHandler: changeTaskStatusHandler,
+    editHandler,
+    timeTaskHandler,
+    addCommentReplyHandler,
+  } = useContext(TasksHandlers) as TasksProps['handlers'];
 
   const {
     status,
     task,
     handlers: {
-      editTaskHandler,
-      changeTaskStatusHandler,
-      editHandler,
       deleteTaskHandler,
       createSubTaskHandler,
       changeSubTaskStatusHandler,
@@ -198,7 +199,7 @@ export const TaskCard = (props: TaskCardProps) => {
         >
           Show Task
         </Button>
-        <Button onClickHandler={() => editHandler()}>Edit Task</Button>
+        <Button onClickHandler={() => editHandler(task)}>Edit Task</Button>
         <Button
           variant="outline"
           style={{ borderColor: 'red', color: 'red' }}
