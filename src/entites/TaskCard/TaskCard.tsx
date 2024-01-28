@@ -1,3 +1,5 @@
+// Providers
+import { TasksHandlers } from 'pages/Tasks/TasksHandlersProvider';
 // Hooks
 import {
   useCallback,
@@ -24,7 +26,6 @@ import { Task } from 'shared/types';
 import { DevTimer } from './UI/DevTimer/DevTimer';
 // Styles
 import classes from './styles.module.scss';
-import { TasksHandlers } from 'pages/Tasks/TasksContextProvider';
 import { TasksProps } from 'features/Task/Task';
 
 type TaskCardProps = {
@@ -51,6 +52,7 @@ export const TaskCard = (props: TaskCardProps) => {
     editTaskHandler,
     changeTaskStatusDnDHandler: changeTaskStatusHandler,
     editHandler,
+    deleteTaskHandler,
     timeTaskHandler,
     addCommentReplyHandler,
   } = useContext(TasksHandlers) as TasksProps['handlers'];
@@ -59,7 +61,7 @@ export const TaskCard = (props: TaskCardProps) => {
     status,
     task,
     handlers: {
-      deleteTaskHandler,
+      // deleteTaskHandler,
       createSubTaskHandler,
       changeSubTaskStatusHandler,
       deleteSubTaskHandler,
@@ -203,7 +205,7 @@ export const TaskCard = (props: TaskCardProps) => {
         <Button
           variant="outline"
           style={{ borderColor: 'red', color: 'red' }}
-          onClickHandler={() => deleteTaskHandler()}
+          onClickHandler={() => deleteTaskHandler(task)}
         >
           Delete Task
         </Button>

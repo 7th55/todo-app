@@ -34,7 +34,7 @@ import {
   useUpperLayer,
 } from 'shared/UI/UpperLayer/model/upperLayerReducer';
 import { variants } from 'shared/animations.config';
-import { TasksContextProvider } from './TasksContextProvider';
+import { TasksHandlersProvider } from './TasksHandlersProvider';
 
 export const Tasks = () => {
   // Modal Views
@@ -190,7 +190,7 @@ export const Tasks = () => {
 
   return (
     <PagesAnimation keyProp="tasksPage">
-      <TasksContextProvider
+      <TasksHandlersProvider
         value={taskProps.handlers as typeof taskProps.handlers}
       >
         <section style={{ margin: '0 10px 0 10px' }}>
@@ -339,7 +339,7 @@ export const Tasks = () => {
             />
           )}
         </section>
-      </TasksContextProvider>
+      </TasksHandlersProvider>
     </PagesAnimation>
   );
 };

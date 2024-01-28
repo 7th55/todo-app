@@ -2,7 +2,7 @@ import { createContext } from 'react';
 
 export const TasksHandlers = createContext(null as unknown as object);
 
-export const TasksContextProvider = <T extends object>(props: {
+export const TasksHandlersProvider = <T extends object>(props: {
   children: React.ReactNode;
   value: T;
 }) => {
