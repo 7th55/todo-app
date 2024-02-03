@@ -53,6 +53,7 @@ export const TaskCard = (props: TaskCardProps) => {
     changeTaskStatusDnDHandler: changeTaskStatusHandler,
     editHandler,
     deleteTaskHandler,
+    changeSubTaskStatusHandler,
     createSubTaskHandler,
     timeTaskHandler,
     addCommentReplyHandler,
@@ -64,7 +65,7 @@ export const TaskCard = (props: TaskCardProps) => {
     handlers: {
       // deleteTaskHandler,
       // createSubTaskHandler,
-      changeSubTaskStatusHandler,
+      // changeSubTaskStatusHandler,
       deleteSubTaskHandler,
       addCommentHandler,
     },

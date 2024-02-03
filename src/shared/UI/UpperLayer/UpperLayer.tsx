@@ -1,5 +1,11 @@
 // Hooks
-import { useLayoutEffect } from 'react';
+import {
+  LegacyRef,
+  MutableRefObject,
+  RefObject,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 import { useUpperLayer } from './model/upperLayerReducer';
 // Components
 import { Button } from '../Button';
@@ -21,8 +27,6 @@ const unfixHTMLElement = (element: HTMLElement) => {
   element.style.overflow = 'auto';
 };
 
-const upperLayer = document.querySelector('.upperLayer') as HTMLElement;
-
 export const UpperLayer = ({
   content,
   closeModal,
@@ -32,6 +36,8 @@ export const UpperLayer = ({
 }) => {
   const isOpen = useUpperLayer().isOpen;
   const dispatch = useDispatch();
+
+  const upperLayer = document.querySelector('.upperLayer') as HTMLElement;
 
   useLayoutEffect(() => {
     if (isOpen && upperLayer) {
