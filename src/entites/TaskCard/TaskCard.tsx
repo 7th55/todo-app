@@ -57,6 +57,7 @@ export const TaskCard = (props: TaskCardProps) => {
     createSubTaskHandler,
     deleteSubTaskHandler,
     timeTaskHandler,
+    addCommentHandler,
     addCommentReplyHandler,
   } = useContext(TasksHandlers) as TasksProps['handlers'];
 
@@ -68,7 +69,7 @@ export const TaskCard = (props: TaskCardProps) => {
       // createSubTaskHandler,
       // changeSubTaskStatusHandler,
       // deleteSubTaskHandler,
-      addCommentHandler,
+      // addCommentHandler,
     },
   } = props;
 
@@ -223,7 +224,7 @@ export const TaskCard = (props: TaskCardProps) => {
                 createSubTaskHandler: () => createSubTaskHandler(task),
                 changeSubTaskStatusHandler,
                 deleteSubTaskHandler,
-                addCommentHandler,
+                addCommentHandler: () => addCommentHandler(task.taskId),
                 addCommentReplyHandler,
               }}
             />
