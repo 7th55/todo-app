@@ -39,20 +39,7 @@ export type TasksProps = {
 };
 
 export const Task = (props: TasksProps) => {
-  const {
-    status,
-    filter,
-    handlers: {
-      editTaskHandler,
-      changeTaskStatusDnDHandler: changeTaskStatusHandler,
-      editHandler,
-      deleteTaskHandler,
-      addCommentHandler,
-      createSubTaskHandler,
-      changeSubTaskStatusHandler,
-      deleteSubTaskHandler,
-    },
-  } = props;
+  const { status, filter } = props;
 
   const { projectId } = useParams();
   const tasksState = useTask();
@@ -72,16 +59,6 @@ export const Task = (props: TasksProps) => {
             status,
             task,
             index,
-            handlers: {
-              editTaskHandler,
-              changeTaskStatusHandler,
-              editHandler: () => editHandler(task),
-              deleteTaskHandler: () => deleteTaskHandler(task),
-              createSubTaskHandler: () => createSubTaskHandler(task),
-              changeSubTaskStatusHandler,
-              deleteSubTaskHandler,
-              addCommentHandler: () => addCommentHandler(task.taskId),
-            },
           };
           return (
             <li

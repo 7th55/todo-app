@@ -1,5 +1,5 @@
 // Providers
-import { TasksHandlers } from 'pages/Tasks/TasksHandlersProvider';
+import { TasksHandlers } from 'features/Task/TasksHandlersProvider';
 // Hooks
 import {
   useCallback,
@@ -31,20 +31,6 @@ import { TasksProps } from 'features/Task/Task';
 type TaskCardProps = {
   status: Task['status'];
   task: Task;
-  handlers: {
-    editTaskHandler: (taskState: Task, changedFields: Partial<Task>) => void;
-    changeTaskStatusHandler: (taskState: Task) => void;
-    editHandler: () => void;
-    deleteTaskHandler: () => void;
-    createSubTaskHandler: () => void;
-    changeSubTaskStatusHandler: (
-      taskState: Task,
-      editedSubTaskId: string,
-      status: Task['status']
-    ) => void;
-    deleteSubTaskHandler: (task: Task, subTask: Task) => void;
-    addCommentHandler: () => void;
-  };
 };
 
 export const TaskCard = (props: TaskCardProps) => {
@@ -61,17 +47,7 @@ export const TaskCard = (props: TaskCardProps) => {
     addCommentReplyHandler,
   } = useContext(TasksHandlers) as TasksProps['handlers'];
 
-  const {
-    status,
-    task,
-    handlers: {
-      // deleteTaskHandler,
-      // createSubTaskHandler,
-      // changeSubTaskStatusHandler,
-      // deleteSubTaskHandler,
-      // addCommentHandler,
-    },
-  } = props;
+  const { status, task } = props;
 
   // Modal Views
   const [upperLayer, setUpperLayer] = useState<'TaskDetails' | null>(null);

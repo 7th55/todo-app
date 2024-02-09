@@ -10,6 +10,7 @@ import { useLayoutEffect, useState } from 'react';
 import { useProject } from 'features/Project/model/projectReducer';
 import { useFilter } from 'features/Filter/model/filterReducer';
 // Components
+import { TasksHandlersProvider } from 'features/Task/TasksHandlersProvider';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from 'shared/UI/Button';
@@ -34,7 +35,6 @@ import {
   useUpperLayer,
 } from 'shared/UI/UpperLayer/model/upperLayerReducer';
 import { variants } from 'shared/animations.config';
-import { TasksHandlersProvider } from './TasksHandlersProvider';
 
 export const Tasks = () => {
   // Modal Views
