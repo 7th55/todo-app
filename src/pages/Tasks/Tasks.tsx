@@ -10,7 +10,7 @@ import { useLayoutEffect, useState } from 'react';
 import { useProject } from 'features/Project/model/projectReducer';
 import { useFilter } from 'features/Filter/model/filterReducer';
 // Components
-import { TasksHandlersProvider } from 'features/Task/TasksHandlersProvider';
+import { TaskProvider } from 'features/Task/TaskProvider';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from 'shared/UI/Button';
@@ -190,9 +190,7 @@ export const Tasks = () => {
 
   return (
     <PagesAnimation keyProp="tasksPage">
-      <TasksHandlersProvider
-        value={taskProps.handlers as typeof taskProps.handlers}
-      >
+      <TaskProvider value={taskProps.handlers as typeof taskProps.handlers}>
         <section style={{ margin: '0 10px 0 10px' }}>
           <h1>Tasks Page</h1>
           <nav>
@@ -339,7 +337,7 @@ export const Tasks = () => {
             />
           )}
         </section>
-      </TasksHandlersProvider>
+      </TaskProvider>
     </PagesAnimation>
   );
 };

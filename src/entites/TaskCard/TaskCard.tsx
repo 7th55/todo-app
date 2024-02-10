@@ -1,5 +1,5 @@
 // Providers
-import { TasksHandlers } from 'features/Task/TasksHandlersProvider';
+import { TasksHandlers } from 'features/Task/TaskProvider';
 // Hooks
 import {
   useCallback,
