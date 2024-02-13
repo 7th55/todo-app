@@ -24,7 +24,7 @@ export const EditTaskForm = (props: EditTaskFormProps) => {
         dispatch(
           editTask({
             projectId: projectId,
-            taskState: taskState,
+            taskId: taskState.taskId,
             editedTask: editedTask,
           })
         )

@@ -92,9 +92,8 @@ export const Tasks = () => {
         dispatch(
           editTask({
             projectId: project.id,
-            taskState,
+            taskId: taskState.taskId,
             editedTask: {
-              ...taskState,
               ...changedFields,
             },
           })
@@ -105,9 +104,8 @@ export const Tasks = () => {
           dispatch(
             editTask({
               projectId: project.id,
-              taskState,
+              taskId: taskState.taskId,
               editedTask: {
-                ...taskState,
                 status: taskStatus,
               },
             })
@@ -132,9 +130,8 @@ export const Tasks = () => {
           dispatch(
             editTask({
               projectId: project?.id,
-              taskState,
+              taskId: taskState.taskId,
               editedTask: {
-                ...taskState,
                 time: {
                   ...taskState.time,
                   ...time,
@@ -153,9 +150,8 @@ export const Tasks = () => {
           dispatch(
             editTask({
               projectId: project?.id,
-              taskState,
+              taskId: taskState.taskId,
               editedTask: {
-                ...taskState,
                 subTasks: taskState.subTasks?.concat().map((sub) => {
                   return sub.taskId === editedSubTaskId
                     ? { ...sub, status }
