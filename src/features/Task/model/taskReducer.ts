@@ -23,14 +23,13 @@ type DeleteTaskPayload = TaskPayload;
 type ClearTasksPayload = Pick<TaskPayload, 'projectId'>;
 
 type EditTaskPayload = Omit<TaskPayload, 'task'> & {
-  editedTask: Partial<Task>;
   taskId: Task['taskId'];
-  // taskState?: Task;
+  editedTask: Partial<Task>;
 };
 
 type CreateSubTaskPayload = Omit<TaskPayload, 'task'> & {
+  taskId: Task['taskId'];
   subTask: Task;
-  taskState: Task;
 };
 
 type DeleteSubTaskPayload = Omit<TaskPayload, 'task'> & {
@@ -127,7 +126,7 @@ export function taskReducer(state = initialState, action: TasksAction) {
       return state.map((project) => {
         if (project.projectId === projectId) {
           return {
-            projectId: projectId,
+            projectId,
             projectTasks: project.projectTasks.map((task) => {
               if (task.taskId === taskId) {
                 return { ...task, ...editedTask };
@@ -140,7 +139,7 @@ export function taskReducer(state = initialState, action: TasksAction) {
       });
     }
     case 'task/CREATE_SUB_TASK': {
-      const { projectId, taskState, subTask } =
+      const { projectId, taskId, subTask } =
         action.payload as CreateSubTaskPayload;
 
       return state.map((project) => {
@@ -148,9 +147,9 @@ export function taskReducer(state = initialState, action: TasksAction) {
           return {
             projectId: projectId,
             projectTasks: project.projectTasks.map((task) => {
-              if (task.taskId === taskState.taskId) {
+              if (task.taskId === taskId) {
                 return {
-                  ...taskState,
+                  ...task,
                   subTasks:
                     task.subTasks === null
                       ? [{ ...subTask }]

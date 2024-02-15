@@ -26,7 +26,7 @@ export const CreateSubTaskForm = (props: CreateSubTaskFormProps) => {
         dispatch(
           createSubTask({
             projectId: projectId,
-            taskState: taskState,
+            taskId: taskState.taskId,
             subTask: {
               ...subTask,
               taskId: createId(),
