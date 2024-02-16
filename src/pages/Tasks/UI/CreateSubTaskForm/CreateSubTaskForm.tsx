@@ -6,7 +6,6 @@ import { TaskForm } from 'entites/TaskForm';
 import { createSubTask } from 'features/Task/model/taskReducer';
 // Types
 import { Task } from 'shared/types';
-import { isOpenUpperLayer } from 'shared/UI/UpperLayer/model/upperLayerReducer';
 import { createId } from 'shared/lib';
 
 type CreateSubTaskFormProps = {

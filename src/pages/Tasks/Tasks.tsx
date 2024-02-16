@@ -82,6 +82,7 @@ export const Tasks = () => {
   const changeSubTaskStatusHandlerValuesCheck = projectId;
 
   // Task Props
+
   const taskProps: Omit<TasksProps, 'status'> = {
     filter: {
       filterState,
