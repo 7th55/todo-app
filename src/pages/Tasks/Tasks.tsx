@@ -6,9 +6,10 @@ import {
   editTask,
   useTask,
 } from 'features/Task/model/taskReducer';
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 import { useProject } from 'features/Project/model/projectReducer';
 import { useFilter } from 'features/Filter/model/filterReducer';
+import { useUpperLayers } from './hooks';
 // Components
 import { TaskProvider } from 'features/Task/TaskProvider';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -30,17 +31,22 @@ import { Project, Projects, Task } from 'shared/types';
 import { TasksProps } from 'features/Task/Task';
 // Lib
 import { deleteTask } from 'features/Task/model/taskReducer';
-import {
-  isOpenUpperLayer,
-  useUpperLayer,
-} from 'shared/UI/UpperLayer/model/upperLayerReducer';
+import { isOpenUpperLayer } from 'shared/UI/UpperLayer/model/upperLayerReducer';
 import { variants } from 'shared/animations.config';
 
 export const Tasks = () => {
   // Modal Views
-  const [upperLayer, setUpperLayer] = useState<
-    'Create' | 'CreateSubTask' | 'Edit' | 'AddComment' | 'ReplyComment' | null
-  >(null);
+  const [
+    upperLayer,
+    {
+      createUpperLayerHandler,
+      createSubTaskUpperLayerHandler,
+      editUpperLayerHandler,
+      addCommentUpperLayerHandler,
+      replyCommentUpperLayerHandler,
+      nullUpperLayerHandler,
+    },
+  ] = useUpperLayers();
 
   const [editTaskData, setEditTaskData] = useState<{
     taskState: Task;
@@ -61,12 +67,6 @@ export const Tasks = () => {
 
   const projects = useProject() as Projects;
   const dispatch = useDispatch();
-
-  const isOpenUpperLayerState = useUpperLayer().isOpen;
-
-  useLayoutEffect(() => {
-    if (isOpenUpperLayerState === false) setUpperLayer(null);
-  }, [isOpenUpperLayerState]);
 
   const project = projects.find((proj) => proj.id === projectId) as Project;
 
@@ -113,7 +113,7 @@ export const Tasks = () => {
           );
       },
       editHandler: (taskState) => {
-        setUpperLayer('Edit');
+        editUpperLayerHandler();
         setEditTaskData({ taskState });
         dispatch(isOpenUpperLayer({ isOpen: true }));
       },
@@ -142,7 +142,7 @@ export const Tasks = () => {
           );
       },
       createSubTaskHandler: (taskState) => {
-        setUpperLayer('CreateSubTask');
+        createSubTaskUpperLayerHandler();
         setEditTaskData({ taskState });
         dispatch(isOpenUpperLayer({ isOpen: true }));
       },
@@ -173,12 +173,12 @@ export const Tasks = () => {
           );
       },
       addCommentHandler: (taskId) => {
-        setUpperLayer('AddComment');
+        addCommentUpperLayerHandler();
         setAddComment({ taskId, commentAuthorId: null });
         dispatch(isOpenUpperLayer({ isOpen: true }));
       },
       addCommentReplyHandler: (taskId, commentAuthorId) => {
-        setUpperLayer('ReplyComment');
+        replyCommentUpperLayerHandler();
         setAddComment({ taskId, commentAuthorId: commentAuthorId });
         dispatch(isOpenUpperLayer({ isOpen: true }));
       },
@@ -200,7 +200,7 @@ export const Tasks = () => {
           <div className={classes.tasksButtons}>
             <Button
               onClickHandler={() => {
-                setUpperLayer('Create');
+                createUpperLayerHandler();
                 dispatch(isOpenUpperLayer({ isOpen: true }));
               }}
             >
@@ -283,22 +283,22 @@ export const Tasks = () => {
             )}
           </AnimatePresence>
           {/* Modal Views */}
-          {upperLayer === 'Create' && (
+          {upperLayer === 'create' && (
             <UpperLayer content={<CreateTaskForm projectId={project.id} />} />
           )}
-          {upperLayer === 'CreateSubTask' && (
+          {upperLayer === 'createSubTask' && (
             <UpperLayer
               content={
                 <CreateSubTaskForm
                   projectId={project.id}
                   taskState={editTaskData?.taskState as Task}
-                  closeModal={() => setUpperLayer(null)}
+                  closeModal={() => nullUpperLayerHandler()}
                 />
               }
-              closeModal={() => setUpperLayer(null)}
+              closeModal={() => nullUpperLayerHandler()}
             />
           )}
-          {upperLayer === 'Edit' && (
+          {upperLayer === 'edit' && (
             <UpperLayer
               content={
                 <EditTaskForm
@@ -308,29 +308,29 @@ export const Tasks = () => {
               }
             />
           )}
-          {upperLayer === 'AddComment' && (
+          {upperLayer === 'addComment' && (
             <UpperLayer
               content={
                 <AddCommentForm
                   projectId={project.id}
                   taskId={addComment?.taskId as string}
-                  closeModal={() => setUpperLayer(null)}
+                  closeModal={() => nullUpperLayerHandler()}
                 />
               }
-              closeModal={() => setUpperLayer(null)}
+              closeModal={() => nullUpperLayerHandler()}
             />
           )}
-          {upperLayer === 'ReplyComment' && (
+          {upperLayer === 'replyComment' && (
             <UpperLayer
               content={
                 <ReplyCommentForm
                   projectId={project.id}
                   taskId={addComment?.taskId as string}
                   commentAuthorId={addComment?.commentAuthorId as string}
-                  closeModal={() => setUpperLayer(null)}
+                  closeModal={() => nullUpperLayerHandler()}
                 />
               }
-              closeModal={() => setUpperLayer(null)}
+              closeModal={() => nullUpperLayerHandler()}
             />
           )}
         </section>

@@ -2,14 +2,30 @@ import { useLayoutEffect, useState } from 'react';
 import { useUpperLayer } from 'shared/UI/UpperLayer/model/upperLayerReducer';
 
 type UpperLayers =
-  | 'Create'
-  | 'CreateSubTask'
-  | 'Edit'
-  | 'AddComment'
-  | 'ReplyComment';
+  | 'create'
+  | 'createSubTask'
+  | 'edit'
+  | 'addComment'
+  | 'replyComment';
 
-export const useUpperLayers = () => {
-  const [upperLayer, setUpperLayer] = useState<UpperLayers | null>(null);
+type UpperLayersStates = UpperLayers | null;
+
+type UpeprLayersHandlers = Record<
+  `${UpperLayers | null}UpperLayerHandler`,
+  () => void
+>;
+
+export const useUpperLayers = (): [UpperLayers | null, UpeprLayersHandlers] => {
+  const [upperLayer, setUpperLayer] = useState<UpperLayersStates>(null);
+
+  const upperLayers: Array<UpperLayersStates> = [
+    'create',
+    'createSubTask',
+    'edit',
+    'addComment',
+    'replyComment',
+    null,
+  ];
 
   const isOpenUpperLayerState = useUpperLayer().isOpen;
 
@@ -17,5 +33,19 @@ export const useUpperLayers = () => {
     if (isOpenUpperLayerState === false) setUpperLayer(null);
   }, [isOpenUpperLayerState]);
 
-  return [upperLayer];
+  const createHandlers = (arr: Array<UpperLayersStates>) => {
+    const handlers: any = {};
+    arr.forEach(
+      (key) =>
+        (handlers[
+          typeof key === 'string'
+            ? `${key}UpperLayerHandler`
+            : 'nullUpperLayerHandler'
+        ] = () => setUpperLayer(key))
+    );
+
+    return handlers as UpeprLayersHandlers;
+  };
+
+  return [upperLayer, createHandlers(upperLayers)];
 };
