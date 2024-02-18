@@ -10,12 +10,12 @@ type UpperLayers =
 
 type UpperLayersStates = UpperLayers | null;
 
-type UpeprLayersHandlers = Record<
+type UpprLayersHandlers = Record<
   `${UpperLayers | null}UpperLayerHandler`,
   () => void
 >;
 
-export const useUpperLayers = (): [UpperLayers | null, UpeprLayersHandlers] => {
+export const useUpperLayers = (): [UpperLayers | null, UpprLayersHandlers] => {
   const [upperLayer, setUpperLayer] = useState<UpperLayersStates>(null);
 
   const upperLayers: Array<UpperLayersStates> = [
@@ -44,7 +44,7 @@ export const useUpperLayers = (): [UpperLayers | null, UpeprLayersHandlers] => {
         ] = () => setUpperLayer(key))
     );
 
-    return handlers as UpeprLayersHandlers;
+    return handlers as UpprLayersHandlers;
   };
 
   return [upperLayer, createHandlers(upperLayers)];
