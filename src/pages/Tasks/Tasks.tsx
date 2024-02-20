@@ -17,12 +17,6 @@ import { Link } from 'react-router-dom';
 import { Button } from 'shared/UI/Button';
 import { Task as TasksFeature } from 'features/Task';
 import { Filter } from 'features/Filter';
-import { UpperLayer } from 'shared/UI/UpperLayer';
-import { CreateTaskForm } from './UI/CreateTaskForm';
-import { CreateSubTaskForm } from './UI/CreateSubTaskForm';
-import { EditTaskForm } from './UI/EditTaskForm';
-import { AddCommentForm } from './UI/AddCommentForm/AddCommentForm';
-import { ReplyCommentForm } from './UI/ReplyCommentForm';
 import { PagesAnimation } from 'shared/UI/PagesAnimation';
 // Styles
 import classes from './styles.module.css';
@@ -33,6 +27,7 @@ import { TasksProps } from 'features/Task/Task';
 import { deleteTask } from 'features/Task/model/taskReducer';
 import { isOpenUpperLayer } from 'shared/UI/UpperLayer/model/upperLayerReducer';
 import { variants } from 'shared/animations.config';
+import { ModalViews } from './UI/ModalViews';
 
 export const Tasks = () => {
   // Modal Views
@@ -282,57 +277,18 @@ export const Tasks = () => {
               </motion.h3>
             )}
           </AnimatePresence>
-          {/* Modal Views */}
-          {upperLayer === 'create' && (
-            <UpperLayer content={<CreateTaskForm projectId={project.id} />} />
-          )}
-          {upperLayer === 'createSubTask' && (
-            <UpperLayer
-              content={
-                <CreateSubTaskForm
-                  projectId={project.id}
-                  taskState={editTaskData?.taskState as Task}
-                  closeModal={() => nullUpperLayerHandler()}
-                />
+          <ModalViews
+            upperLayer={upperLayer}
+            projectId={project.id}
+            taskState={editTaskData?.taskState as Task}
+            addComment={
+              addComment as {
+                taskId: string;
+                commentAuthorId: string;
               }
-              closeModal={() => nullUpperLayerHandler()}
-            />
-          )}
-          {upperLayer === 'edit' && (
-            <UpperLayer
-              content={
-                <EditTaskForm
-                  projectId={project.id}
-                  taskState={editTaskData?.taskState as Task}
-                />
-              }
-            />
-          )}
-          {upperLayer === 'addComment' && (
-            <UpperLayer
-              content={
-                <AddCommentForm
-                  projectId={project.id}
-                  taskId={addComment?.taskId as string}
-                  closeModal={() => nullUpperLayerHandler()}
-                />
-              }
-              closeModal={() => nullUpperLayerHandler()}
-            />
-          )}
-          {upperLayer === 'replyComment' && (
-            <UpperLayer
-              content={
-                <ReplyCommentForm
-                  projectId={project.id}
-                  taskId={addComment?.taskId as string}
-                  commentAuthorId={addComment?.commentAuthorId as string}
-                  closeModal={() => nullUpperLayerHandler()}
-                />
-              }
-              closeModal={() => nullUpperLayerHandler()}
-            />
-          )}
+            }
+            closeHandler={() => nullUpperLayerHandler()}
+          />
         </section>
       </TaskProvider>
     </PagesAnimation>

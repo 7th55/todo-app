@@ -8,14 +8,14 @@ type UpperLayers =
   | 'addComment'
   | 'replyComment';
 
-type UpperLayersStates = UpperLayers | null;
+export type UpperLayersStates = UpperLayers | null;
 
-type UpprLayersHandlers = Record<
+export type UpperLayersHandlers = Record<
   `${UpperLayers | null}UpperLayerHandler`,
   () => void
 >;
 
-export const useUpperLayers = (): [UpperLayers | null, UpprLayersHandlers] => {
+export const useUpperLayers = (): [UpperLayers | null, UpperLayersHandlers] => {
   const [upperLayer, setUpperLayer] = useState<UpperLayersStates>(null);
 
   const upperLayers: Array<UpperLayersStates> = [
@@ -44,7 +44,7 @@ export const useUpperLayers = (): [UpperLayers | null, UpprLayersHandlers] => {
         ] = () => setUpperLayer(key))
     );
 
-    return handlers as UpprLayersHandlers;
+    return handlers as UpperLayersHandlers;
   };
 
   return [upperLayer, createHandlers(upperLayers)];
