@@ -6,7 +6,7 @@ import {
   editTask,
   useTask,
 } from 'features/Task/model/taskReducer';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useProject } from 'features/Project/model/projectReducer';
 import { useFilter } from 'features/Filter/model/filterReducer';
 import { useUpperLayers } from './hooks';
@@ -22,7 +22,7 @@ import { PagesAnimation } from 'shared/UI/PagesAnimation';
 import classes from './styles.module.css';
 // Types
 import { Project, Projects, Task } from 'shared/types';
-import { TasksProps } from 'features/Task/Task';
+import { TaskHandlers, TasksProps } from 'features/Task/Task';
 // Lib
 import { deleteTask } from 'features/Task/model/taskReducer';
 import { isOpenUpperLayer } from 'shared/UI/UpperLayer/model/upperLayerReducer';
@@ -78,111 +78,122 @@ export const Tasks = () => {
 
   // Task Props
 
-  const taskProps: Omit<TasksProps, 'status'> = {
+  const taskProps: TasksProps = {
+    status: taskStatus as Task['status'],
     filter: {
       filterState,
       isOpen: filterIsOpen,
     },
-    handlers: {
-      editTaskHandler: (taskState, changedFields) => {
+  };
+
+  const taskHandlers: TaskHandlers = {
+    editTaskHandler: (taskState, changedFields) => {
+      dispatch(
+        editTask({
+          projectId: project.id,
+          taskId: taskState.taskId,
+          editedTask: {
+            ...changedFields,
+          },
+        })
+      );
+    },
+    changeTaskStatusDnDHandler: (taskState) => {
+      editTaskStatusValuesCheck &&
         dispatch(
           editTask({
             projectId: project.id,
             taskId: taskState.taskId,
             editedTask: {
-              ...changedFields,
+              status: taskStatus,
             },
           })
         );
-      },
-      changeTaskStatusDnDHandler: (taskState) => {
-        editTaskStatusValuesCheck &&
-          dispatch(
-            editTask({
-              projectId: project.id,
-              taskId: taskState.taskId,
-              editedTask: {
-                status: taskStatus,
+    },
+    editHandler: (taskState) => {
+      editUpperLayerHandler();
+      setEditTaskData({ taskState });
+      dispatch(isOpenUpperLayer({ isOpen: true }));
+    },
+    deleteTaskHandler: (task) => {
+      projectId &&
+        dispatch(
+          deleteTask({
+            projectId: project?.id,
+            task,
+          })
+        );
+    },
+    timeTaskHandler: (taskState, time) => {
+      timeTaskHandlerValuesCheck &&
+        dispatch(
+          editTask({
+            projectId: project?.id,
+            taskId: taskState.taskId,
+            editedTask: {
+              time: {
+                ...taskState.time,
+                ...time,
               },
-            })
-          );
-      },
-      editHandler: (taskState) => {
-        editUpperLayerHandler();
-        setEditTaskData({ taskState });
-        dispatch(isOpenUpperLayer({ isOpen: true }));
-      },
-      deleteTaskHandler: (task) => {
-        projectId &&
-          dispatch(
-            deleteTask({
-              projectId: project?.id,
-              task,
-            })
-          );
-      },
-      timeTaskHandler: (taskState, time) => {
-        timeTaskHandlerValuesCheck &&
-          dispatch(
-            editTask({
-              projectId: project?.id,
-              taskId: taskState.taskId,
-              editedTask: {
-                time: {
-                  ...taskState.time,
-                  ...time,
-                },
-              },
-            })
-          );
-      },
-      createSubTaskHandler: (taskState) => {
-        createSubTaskUpperLayerHandler();
-        setEditTaskData({ taskState });
-        dispatch(isOpenUpperLayer({ isOpen: true }));
-      },
-      changeSubTaskStatusHandler: (taskState, editedSubTaskId, status) => {
-        changeSubTaskStatusHandlerValuesCheck &&
-          dispatch(
-            editTask({
-              projectId: project?.id,
-              taskId: taskState.taskId,
-              editedTask: {
-                subTasks: taskState.subTasks?.concat().map((sub) => {
-                  return sub.taskId === editedSubTaskId
-                    ? { ...sub, status }
-                    : sub;
-                }) as Task[],
-              },
-            })
-          );
-      },
-      deleteSubTaskHandler: (taskState, subTask) => {
-        projectId &&
-          dispatch(
-            deleteSubTask({
-              projectId: project?.id,
-              taskState,
-              subTask,
-            })
-          );
-      },
-      addCommentHandler: (taskId) => {
-        addCommentUpperLayerHandler();
-        setAddComment({ taskId, commentAuthorId: null });
-        dispatch(isOpenUpperLayer({ isOpen: true }));
-      },
-      addCommentReplyHandler: (taskId, commentAuthorId) => {
-        replyCommentUpperLayerHandler();
-        setAddComment({ taskId, commentAuthorId: commentAuthorId });
-        dispatch(isOpenUpperLayer({ isOpen: true }));
-      },
+            },
+          })
+        );
+    },
+    createSubTaskHandler: (taskState) => {
+      createSubTaskUpperLayerHandler();
+      setEditTaskData({ taskState });
+      dispatch(isOpenUpperLayer({ isOpen: true }));
+    },
+    changeSubTaskStatusHandler: (taskState, editedSubTaskId, status) => {
+      changeSubTaskStatusHandlerValuesCheck &&
+        dispatch(
+          editTask({
+            projectId: project?.id,
+            taskId: taskState.taskId,
+            editedTask: {
+              subTasks: taskState.subTasks?.concat().map((sub) => {
+                return sub.taskId === editedSubTaskId
+                  ? { ...sub, status }
+                  : sub;
+              }) as Task[],
+            },
+          })
+        );
+    },
+    deleteSubTaskHandler: (taskState, subTask) => {
+      projectId &&
+        dispatch(
+          deleteSubTask({
+            projectId: project?.id,
+            taskState,
+            subTask,
+          })
+        );
+    },
+    addCommentHandler: (taskId) => {
+      addCommentUpperLayerHandler();
+      setAddComment({ taskId, commentAuthorId: null });
+      dispatch(isOpenUpperLayer({ isOpen: true }));
+    },
+    addCommentReplyHandler: (taskId, commentAuthorId) => {
+      replyCommentUpperLayerHandler();
+      setAddComment({ taskId, commentAuthorId: commentAuthorId });
+      dispatch(isOpenUpperLayer({ isOpen: true }));
     },
   };
 
+  const columns = () =>
+    ['Queue', 'Development', 'Done'].map((status) => (
+      <TasksLists
+        taskProps={taskProps}
+        status={status as Task['status']}
+        onDropHandler={(status) => setTaskStatus(status)}
+      />
+    ));
+
   return (
     <PagesAnimation keyProp="tasksPage">
-      <TaskProvider value={taskProps.handlers as typeof taskProps.handlers}>
+      <TaskProvider value={taskHandlers as typeof taskHandlers}>
         <section style={{ margin: '0 10px 0 10px' }}>
           <h1>Tasks Page</h1>
           <nav>
@@ -219,51 +230,7 @@ export const Tasks = () => {
                 variants={variants}
                 className={classes.tasksColumns}
               >
-                <div
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => {
-                    setTaskStatus('Queue');
-                  }}
-                  className={classes.taskCol}
-                  style={{
-                    backgroundColor: 'rgba(255, 172, 0, 0.61)',
-                  }}
-                >
-                  <h3 className={classes.taskColTitle}>Queue</h3>
-                  <div className={classes.taskColContent}>
-                    <TasksFeature status={'Queue'} {...taskProps} />
-                  </div>
-                </div>
-                <div
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => {
-                    setTaskStatus('Development');
-                  }}
-                  className={classes.taskCol}
-                  style={{
-                    backgroundColor: 'rgba(195, 255, 56, 0.61)',
-                  }}
-                >
-                  <h3 className={classes.taskColTitle}>Development</h3>
-                  <div className={classes.taskColContent}>
-                    <TasksFeature status={'Development'} {...taskProps} />
-                  </div>
-                </div>
-                <div
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => {
-                    setTaskStatus('Done');
-                  }}
-                  className={classes.taskCol}
-                  style={{
-                    backgroundColor: 'rgba(0, 255, 55, 0.67)',
-                  }}
-                >
-                  <h3 className={classes.taskColTitle}>Done</h3>
-                  <div className={classes.taskColContent}>
-                    <TasksFeature status={'Done'} {...taskProps} />
-                  </div>
-                </div>
+                {columns()}
               </motion.div>
             ) : (
               <motion.h3
@@ -293,4 +260,43 @@ export const Tasks = () => {
       </TaskProvider>
     </PagesAnimation>
   );
+};
+
+type TasksListsProps = {
+  status: Task['status'];
+  onDropHandler: (status: Task['status']) => void;
+  taskProps: TasksProps;
+};
+
+const TasksLists = (props: TasksListsProps) => {
+  const { status, onDropHandler, taskProps } = props;
+
+  return (
+    <div
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(e) => {
+        onDropHandler(status);
+      }}
+      className={classes.taskCol}
+      style={{
+        backgroundColor: getColumnsBgColor(status),
+      }}
+    >
+      <h3 className={classes.taskColTitle}>{status}</h3>
+      <div className={classes.taskColContent}>
+        <TasksFeature {...taskProps} status={status} />
+      </div>
+    </div>
+  );
+};
+
+const getColumnsBgColor = (status: Task['status']) => {
+  switch (status) {
+    case 'Queue':
+      return 'rgba(255, 172, 0, 0.61)';
+    case 'Development':
+      return 'rgba(195, 255, 56, 0.61)';
+    case 'Done':
+      return 'rgba(0, 255, 55, 0.67)';
+  }
 };

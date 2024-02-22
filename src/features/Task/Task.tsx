@@ -14,28 +14,51 @@ export type TasksProps = {
     filterState: RootState['filter'];
     isOpen: boolean;
   };
-  handlers: {
-    editTaskHandler: (
-      taskState: TaskType,
-      changedFields: Partial<TaskType>
-    ) => void;
-    editHandler: (task: TaskType) => void;
-    changeTaskStatusDnDHandler: (taskState: TaskType) => void;
-    deleteTaskHandler: (task: TaskType) => void;
-    timeTaskHandler: (
-      taskState: TaskType,
-      time: Partial<TaskType['time']>
-    ) => void;
-    createSubTaskHandler: (task: TaskType) => void;
-    changeSubTaskStatusHandler: (
-      taskState: TaskType,
-      editedSubTaskId: string,
-      status: TaskType['status']
-    ) => void;
-    deleteSubTaskHandler: (task: TaskType, subTask: TaskType) => void;
-    addCommentHandler: (taskId: string) => void;
-    addCommentReplyHandler: (taskId: string, commentAuthorID: string) => void;
-  };
+  // handlers: {
+  //   editTaskHandler: (
+  //     taskState: TaskType,
+  //     changedFields: Partial<TaskType>
+  //   ) => void;
+  //   editHandler: (task: TaskType) => void;
+  //   changeTaskStatusDnDHandler: (taskState: TaskType) => void;
+  //   deleteTaskHandler: (task: TaskType) => void;
+  //   timeTaskHandler: (
+  //     taskState: TaskType,
+  //     time: Partial<TaskType['time']>
+  //   ) => void;
+  //   createSubTaskHandler: (task: TaskType) => void;
+  //   changeSubTaskStatusHandler: (
+  //     taskState: TaskType,
+  //     editedSubTaskId: string,
+  //     status: TaskType['status']
+  //   ) => void;
+  //   deleteSubTaskHandler: (task: TaskType, subTask: TaskType) => void;
+  //   addCommentHandler: (taskId: string) => void;
+  //   addCommentReplyHandler: (taskId: string, commentAuthorID: string) => void;
+  // };
+};
+
+export type TaskHandlers = {
+  editTaskHandler: (
+    taskState: TaskType,
+    changedFields: Partial<TaskType>
+  ) => void;
+  editHandler: (task: TaskType) => void;
+  changeTaskStatusDnDHandler: (taskState: TaskType) => void;
+  deleteTaskHandler: (task: TaskType) => void;
+  timeTaskHandler: (
+    taskState: TaskType,
+    time: Partial<TaskType['time']>
+  ) => void;
+  createSubTaskHandler: (task: TaskType) => void;
+  changeSubTaskStatusHandler: (
+    taskState: TaskType,
+    editedSubTaskId: string,
+    status: TaskType['status']
+  ) => void;
+  deleteSubTaskHandler: (task: TaskType, subTask: TaskType) => void;
+  addCommentHandler: (taskId: string) => void;
+  addCommentReplyHandler: (taskId: string, commentAuthorID: string) => void;
 };
 
 export const Task = (props: TasksProps) => {

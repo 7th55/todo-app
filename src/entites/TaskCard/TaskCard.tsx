@@ -26,7 +26,7 @@ import { Task } from 'shared/types';
 import { DevTimer } from './UI/DevTimer/DevTimer';
 // Styles
 import classes from './styles.module.scss';
-import { TasksProps } from 'features/Task/Task';
+import { TaskHandlers, TasksProps } from 'features/Task/Task';
 
 type TaskCardProps = {
   status: Task['status'];
@@ -45,7 +45,7 @@ export const TaskCard = (props: TaskCardProps) => {
     timeTaskHandler,
     addCommentHandler,
     addCommentReplyHandler,
-  } = useContext(TasksHandlers) as TasksProps['handlers'];
+  } = useContext(TasksHandlers) as TaskHandlers;
 
   const { status, task } = props;
 
