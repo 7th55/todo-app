@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useInsertionEffect, useRef, useState } from 'react';
 import { formatTimeAndDate } from 'shared/lib';
 
 type DevTimerProps = {
@@ -8,23 +8,29 @@ type DevTimerProps = {
 
 export const DevTimer = (props: DevTimerProps) => {
   const { timeInDev, timeInDevHandler } = props;
+  const [timer, setTimer] = useState(() => ({
+    time: timeInDev + 1000,
+  }));
 
   useEffect(() => {
-    const timeInDevTimer = setInterval(() => {
-      timeInDevHandler(timeInDev + 1000);
+    const timerSetInterval = setInterval(() => {
+      setTimer((t) => ({
+        time: t.time + 1000,
+      }));
     }, 1000);
 
     return () => {
-      clearInterval(timeInDevTimer);
+      clearInterval(timerSetInterval);
+      timeInDevHandler(timer.time);
     };
-  }, [timeInDev, timeInDevHandler]);
+  }, [timer]);
 
   return (
     <span>
       Time In Development:{' '}
-      {`${formatTimeAndDate(timeInDev).hours}:${
-        formatTimeAndDate(timeInDev).minutes
-      }:${formatTimeAndDate(timeInDev).seconds}`}
+      {`${formatTimeAndDate(timer.time).hours}:${
+        formatTimeAndDate(timer.time).minutes
+      }:${formatTimeAndDate(timer.time).seconds}`}
     </span>
   );
 };
