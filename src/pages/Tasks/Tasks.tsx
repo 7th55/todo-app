@@ -1,12 +1,8 @@
 // Hooks
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {
-  deleteSubTask,
-  editTask,
-  useTask,
-} from 'features/Task/model/taskReducer';
-import { ReactNode, useState } from 'react';
+import { useTask } from 'features/Task/model/taskReducer';
+import { useState } from 'react';
 import { useProject } from 'features/Project/model/projectReducer';
 import { useFilter } from 'features/Filter/model/filterReducer';
 import { useUpperLayers } from './hooks';
@@ -15,19 +11,18 @@ import { TaskProvider } from 'features/Task/TaskProvider';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from 'shared/UI/Button';
-import { Task as TasksFeature } from 'features/Task';
 import { Filter } from 'features/Filter';
 import { PagesAnimation } from 'shared/UI/PagesAnimation';
+import { ModalViews } from './UI/ModalViews';
 // Styles
 import classes from './styles.module.css';
 // Types
 import { Project, Projects, Task } from 'shared/types';
-import { TaskHandlers, TasksProps } from 'features/Task/Task';
+import { TasksProps } from 'features/Task/Task';
 // Lib
-import { deleteTask } from 'features/Task/model/taskReducer';
 import { isOpenUpperLayer } from 'shared/UI/UpperLayer/model/upperLayerReducer';
 import { variants } from 'shared/animations.config';
-import { ModalViews } from './UI/ModalViews';
+import { TasksLists } from './UI/TasksLists';
 
 export const Tasks = () => {
   // Modal Views
@@ -71,13 +66,7 @@ export const Tasks = () => {
   // Filter
   const [filterIsOpen, setFilterIsOpen] = useState(false);
 
-  // Checks
-  const editTaskStatusValuesCheck = projectId && taskStatus;
-  const timeTaskHandlerValuesCheck = projectId !== undefined;
-  const changeSubTaskStatusHandlerValuesCheck = projectId;
-
   // Task Props
-
   const taskProps: TasksProps = {
     status: taskStatus as Task['status'],
     filter: {
@@ -85,106 +74,21 @@ export const Tasks = () => {
       isOpen: filterIsOpen,
     },
   };
-
-  const taskHandlers: TaskHandlers = {
-    editTaskHandler: (taskState, changedFields) => {
-      dispatch(
-        editTask({
-          projectId: project.id,
-          taskId: taskState.taskId,
-          editedTask: {
-            ...changedFields,
-          },
-        })
-      );
-    },
-    changeTaskStatusDnDHandler: (taskState) => {
-      editTaskStatusValuesCheck &&
-        dispatch(
-          editTask({
-            projectId: project.id,
-            taskId: taskState.taskId,
-            editedTask: {
-              status: taskStatus,
-            },
-          })
-        );
-    },
-    editHandler: (taskState) => {
-      editUpperLayerHandler();
-      setEditTaskData({ taskState });
-      dispatch(isOpenUpperLayer({ isOpen: true }));
-    },
-    deleteTaskHandler: (task) => {
-      projectId &&
-        dispatch(
-          deleteTask({
-            projectId: project?.id,
-            task,
-          })
-        );
-    },
-    timeTaskHandler: (taskState, time) => {
-      timeTaskHandlerValuesCheck &&
-        dispatch(
-          editTask({
-            projectId: project?.id,
-            taskId: taskState.taskId,
-            editedTask: {
-              time: {
-                ...taskState.time,
-                ...time,
-              },
-            },
-          })
-        );
-    },
-    createSubTaskHandler: (taskState) => {
-      createSubTaskUpperLayerHandler();
-      setEditTaskData({ taskState });
-      dispatch(isOpenUpperLayer({ isOpen: true }));
-    },
-    changeSubTaskStatusHandler: (taskState, editedSubTaskId, status) => {
-      changeSubTaskStatusHandlerValuesCheck &&
-        dispatch(
-          editTask({
-            projectId: project?.id,
-            taskId: taskState.taskId,
-            editedTask: {
-              subTasks: taskState.subTasks?.concat().map((sub) => {
-                return sub.taskId === editedSubTaskId
-                  ? { ...sub, status }
-                  : sub;
-              }) as Task[],
-            },
-          })
-        );
-    },
-    deleteSubTaskHandler: (taskState, subTask) => {
-      projectId &&
-        dispatch(
-          deleteSubTask({
-            projectId: project?.id,
-            taskState,
-            subTask,
-          })
-        );
-    },
-    addCommentHandler: (taskId) => {
-      addCommentUpperLayerHandler();
-      setAddComment({ taskId, commentAuthorId: null });
-      dispatch(isOpenUpperLayer({ isOpen: true }));
-    },
-    addCommentReplyHandler: (taskId, commentAuthorId) => {
-      replyCommentUpperLayerHandler();
-      setAddComment({ taskId, commentAuthorId: commentAuthorId });
-      dispatch(isOpenUpperLayer({ isOpen: true }));
-    },
+  const taskProviderProps = {
+    project,
+    taskStatus,
+    createSubTaskUpperLayerHandler,
+    editUpperLayerHandler,
+    addCommentUpperLayerHandler,
+    replyCommentUpperLayerHandler,
+    setAddComment,
+    setEditTaskData,
   };
 
   const columns = () =>
     ['Queue', 'Development', 'Done'].map((status) => (
       <TasksLists
+        key={status}
         taskProps={taskProps}
         status={status as Task['status']}
         onDropHandler={(status) => setTaskStatus(status)}
@@ -193,7 +97,7 @@ export const Tasks = () => {
 
   return (
     <PagesAnimation keyProp="tasksPage">
-      <TaskProvider value={taskHandlers as typeof taskHandlers}>
+      <TaskProvider {...taskProviderProps}>
         <section style={{ margin: '0 10px 0 10px' }}>
           <h1>Tasks Page</h1>
           <nav>
@@ -260,43 +164,4 @@ export const Tasks = () => {
       </TaskProvider>
     </PagesAnimation>
   );
-};
-
-type TasksListsProps = {
-  status: Task['status'];
-  onDropHandler: (status: Task['status']) => void;
-  taskProps: TasksProps;
-};
-
-const TasksLists = (props: TasksListsProps) => {
-  const { status, onDropHandler, taskProps } = props;
-
-  return (
-    <div
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => {
-        onDropHandler(status);
-      }}
-      className={classes.taskCol}
-      style={{
-        backgroundColor: getColumnsBgColor(status),
-      }}
-    >
-      <h3 className={classes.taskColTitle}>{status}</h3>
-      <div className={classes.taskColContent}>
-        <TasksFeature {...taskProps} status={status} />
-      </div>
-    </div>
-  );
-};
-
-const getColumnsBgColor = (status: Task['status']) => {
-  switch (status) {
-    case 'Queue':
-      return 'rgba(255, 172, 0, 0.61)';
-    case 'Development':
-      return 'rgba(195, 255, 56, 0.61)';
-    case 'Done':
-      return 'rgba(0, 255, 55, 0.67)';
-  }
 };
